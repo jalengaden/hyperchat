@@ -18,12 +18,17 @@
             --border-color: #0f3460;
             --shadow-color: rgba(0, 0, 0, 0.4);
             --secondary-text-color: #99aab5;
+            --accent-glow: rgba(233, 69, 96, 0.6); /* Softer glow color */
+        }
+
+        html {
+            font-size: 16px; /* Base font size for rem units */
         }
 
         body {
             font-family: 'Roboto', Arial, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 1.25rem; /* 20px / 16px = 1.25rem */
             background-color: var(--bg-color-dark);
             color: var(--text-color-light);
             display: flex;
@@ -33,26 +38,59 @@
             box-sizing: border-box;
             background-image: linear-gradient(135deg, #1a1a2e 0%, #0f3460 50%, #e94560 100%);
             justify-content: center; /* Center content vertically for lobby */
+            position: relative; /* For absolute positioning of background overlay */
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
+
+        /* Animated Background Overlay */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top left, rgba(233, 69, 96, 0.1) 0%, transparent 30%),
+                        radial-gradient(circle at bottom right, rgba(15, 52, 96, 0.1) 0%, transparent 30%);
+            opacity: 0.8;
+            animation: backgroundPulse 15s infinite alternate ease-in-out;
+            z-index: -1; /* Behind other content */
+        }
+
+        @keyframes backgroundPulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.9;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+        }
+
 
         h1 {
             color: var(--primary-color);
             border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 10px;
+            padding-bottom: 0.625rem; /* 10px */
             text-align: center;
-            font-size: 2.8em;
-            margin-bottom: 30px;
-            text-shadow: 0 0 8px var(--primary-color), 0 0 15px white, 0 0 25px var(--primary-color);
-            animation: glow 2s infinite alternate;
+            font-size: 2.8em; /* Relative to parent font size */
+            margin-bottom: 1.875rem; /* 30px */
+            text-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--primary-color), 0 0 30px white; /* More intense glow */
+            animation: glow 2s infinite alternate ease-in-out; /* Smoother animation */
             letter-spacing: 1px;
         }
 
         @keyframes glow {
             0% {
-                text-shadow: 0 0 8px var(--primary-color), 0 0 15px white, 0 0 25px var(--primary-color);
+                text-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--primary-color), 0 0 30px white;
             }
             100% {
-                text-shadow: 0 0 12px white, 0 0 25px var(--primary-color), 0 0 40px white;
+                text-shadow: 0 0 15px white, 0 0 30px var(--primary-color), 0 0 50px white;
             }
         }
 
@@ -60,34 +98,34 @@
         #initial-lobby-screen {
             background-color: rgba(22, 33, 62, 0.8); /* Slightly more opaque for focus */
             border: 1px solid rgba(15, 52, 96, 0.5);
-            border-radius: 12px;
-            box-shadow: 0 5px 20px var(--shadow-color);
-            padding: 40px;
+            border-radius: 0.75rem; /* 12px */
+            box-shadow: 0 0.3125rem 1.25rem var(--shadow-color); /* 5px 20px */
+            padding: 2.5rem; /* 40px */
             width: 100%;
-            max-width: 450px; /* Reasonable width for lobby screen */
+            max-width: 28.125rem; /* 450px */
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px; /* Spacing for main elements */
+            gap: 1.25rem; /* 20px */
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             text-align: center;
         }
 
         #initial-lobby-screen h1 {
-            margin-bottom: 20px; /* Adjust margin for lobby screen */
+            margin-bottom: 1.25rem; /* 20px */
         }
 
         /* Username form specific styles */
         #username-form {
             display: flex;
             flex-direction: column;
-            gap: 15px; /* Added gap here for spacing between input and button */
+            gap: 0.9375rem; /* 15px */
             width: 100%; /* Ensure it takes full width of parent */
         }
 
         #username-form input[type="text"] {
-            width: calc(100% - 40px); /* Full width minus padding */
+            width: calc(100% - 2.5rem); /* Full width minus padding (40px) */
             margin-bottom: 0; /* No bottom margin, use gap */
         }
 
@@ -99,7 +137,7 @@
         .lobby-room-actions {
             display: flex;
             flex-direction: column;
-            gap: 15px; /* Space between create and join buttons */
+            gap: 0.9375rem; /* 15px */
             width: 100%; /* Ensure it takes full width of parent */
         }
 
@@ -107,13 +145,13 @@
         .chat-container {
             background-color: rgba(22, 33, 62, 0.6);
             border: 1px solid rgba(15, 52, 96, 0.3);
-            border-radius: 12px;
-            box-shadow: 0 5px 20px var(--shadow-color);
-            padding: 25px;
+            border-radius: 0.75rem; /* 12px */
+            box-shadow: 0 0.3125rem 1.25rem var(--shadow-color); /* 5px 20px */
+            padding: 1.5625rem; /* 25px */
             width: 100%;
-            max-width: 1200px; /* Increased max-width for three-column layout */
+            max-width: 75rem; /* 1200px */
             display: flex;
-            gap: 20px;
+            gap: 1.25rem; /* 20px */
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             /* Initially hidden, controlled by JS */
@@ -130,14 +168,14 @@
         #chat-window {
             background: rgba(42, 42, 74, 0.6);
             border: 1px solid rgba(15, 52, 96, 0.3);
-            padding: 15px;
-            height: 400px;
+            padding: 0.9375rem; /* 15px */
+            height: 25rem; /* 400px */
             overflow-y: auto;
-            border-radius: 8px;
-            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
+            border-radius: 0.5rem; /* 8px */
+            box-shadow: inset 0 0 0.5rem rgba(0, 0, 0, 0.3); /* 8px */
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 0.625rem; /* 10px */
             flex-grow: 1;
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
@@ -145,12 +183,12 @@
 
         .message-container {
             background-color: rgba(22, 33, 62, 0.7);
-            padding: 10px 15px;
-            border-radius: 18px;
+            padding: 0.625rem 0.9375rem; /* 10px 15px */
+            border-radius: 1.125rem; /* 18px */
             max-width: 85%;
             word-wrap: break-word;
             line-height: 1.5;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.2); /* 2px 5px */
         }
 
         .message-container strong {
@@ -159,9 +197,9 @@
         }
 
         .timestamp {
-            font-size: 0.75em;
+            font-size: 0.75em; /* Relative to parent font size */
             color: var(--secondary-text-color);
-            margin-left: 10px;
+            margin-left: 0.625rem; /* 10px */
             display: inline-block;
             float: right;
             line-height: 1.8;
@@ -180,25 +218,25 @@
             font-style: italic;
             text-align: center;
             font-size: 0.9em;
-            padding: 5px 10px;
+            padding: 0.3125rem 0.625rem; /* 5px 10px */
             background-color: rgba(43, 58, 90, 0.7);
-            border-radius: 8px;
-            margin: 5px 0;
+            border-radius: 0.5rem; /* 8px */
+            margin: 0.3125rem 0; /* 5px */
         }
 
         #typing-indicator {
-            height: 20px;
+            height: 1.25rem; /* 20px */
             font-size: 0.85em;
             color: var(--secondary-text-color);
             font-style: italic;
-            margin-top: -10px;
-            margin-bottom: 5px;
+            margin-top: -0.625rem; /* -10px */
+            margin-bottom: 0.3125rem; /* 5px */
         }
 
         #message-form {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 0.625rem; /* 10px */
+            margin-top: 0.9375rem; /* 15px */
         }
 
         #message-form.hidden {
@@ -207,8 +245,8 @@
 
         input[type="text"] {
             flex-grow: 1;
-            padding: 12px 20px;
-            border-radius: 25px;
+            padding: 0.75rem 1.25rem; /* 12px 20px */
+            border-radius: 1.5625rem; /* 25px */
             border: 1px solid rgba(15, 52, 96, 0.3);
             background: rgba(42, 42, 74, 0.6);
             color: var(--text-color-light);
@@ -229,9 +267,9 @@
         }
 
         button {
-            padding: 12px 25px;
+            padding: 0.75rem 1.5625rem; /* 12px 25px */
             border: none;
-            border-radius: 25px;
+            border-radius: 1.5625rem; /* 25px */
             background-color: var(--primary-color);
             color: white;
             font-size: 1em;
@@ -244,28 +282,28 @@
 
         button:hover {
             background-color: #d13a52;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transform: translateY(-0.125rem); /* -2px */
+            box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.3); /* 4px 10px */
         }
 
         button:active {
             transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.2); /* 2px 5px */
         }
 
         /* Sidebars (User List & Room Management) */
         #user-list-container,
         #room-management-container {
-            width: 250px; /* Fixed width for sidebars */
-            min-width: 180px;
+            width: 15.625rem; /* 250px */
+            min-width: 11.25rem; /* 180px */
             background-color: rgba(42, 42, 74, 0.6);
             border: 1px solid rgba(15, 52, 96, 0.3);
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
+            border-radius: 0.5rem; /* 8px */
+            padding: 0.9375rem; /* 15px */
+            box-shadow: inset 0 0 0.5rem rgba(0, 0, 0, 0.3); /* 8px */
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 0.625rem; /* 10px */
             flex-shrink: 0;
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
@@ -276,9 +314,9 @@
             color: var(--primary-color);
             font-size: 1.3em;
             margin-top: 0;
-            margin-bottom: 10px;
+            margin-bottom: 0.625rem; /* 10px */
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 8px;
+            padding-bottom: 0.5rem; /* 8px */
             text-align: center;
         }
 
@@ -287,15 +325,15 @@
             padding: 0;
             margin: 0;
             overflow-y: auto;
-            max-height: 400px; /* Match chat window height */
+            max-height: 25rem; /* 400px */
         }
 
         #user-list li {
-            padding: 5px 0;
+            padding: 0.3125rem 0; /* 5px */
             color: var(--text-color-light);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.5rem; /* 8px */
         }
 
         #user-list li::before {
@@ -310,16 +348,16 @@
             font-weight: bold;
             color: #fff;
             text-align: center;
-            margin-bottom: 10px;
-            padding: 8px;
+            margin-bottom: 0.625rem; /* 10px */
+            padding: 0.5rem; /* 8px */
             background-color: rgba(233, 69, 96, 0.2);
-            border-radius: 5px;
+            border-radius: 0.3125rem; /* 5px */
         }
 
         #room-select {
             width: 100%;
-            padding: 12px 20px;
-            border-radius: 25px;
+            padding: 0.75rem 1.25rem; /* 12px 20px */
+            border-radius: 1.5625rem; /* 25px */
             border: 1px solid rgba(15, 52, 96, 0.3);
             background: rgba(42, 42, 74, 0.6);
             color: var(--text-color-light);
@@ -330,10 +368,10 @@
             appearance: none; /* Remove default dropdown arrow */
             background-image: url('data:image/svg+xml;utf8,<svg fill="%23e0e0e0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
             background-repeat: no-repeat;
-            background-position: right 15px center;
-            background-size: 20px;
-            padding-right: 40px; /* Make space for the custom arrow */
-            margin-bottom: 10px;
+            background-position: right 0.9375rem center; /* 15px */
+            background-size: 1.25rem; /* 20px */
+            padding-right: 2.5rem; /* 40px */
+            margin-bottom: 0.625rem; /* 10px */
         }
 
         #room-select option {
@@ -344,8 +382,8 @@
         .room-buttons {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 0.625rem; /* 10px */
+            margin-top: 0.625rem; /* 10px */
         }
 
         /* Modal Styles */
@@ -372,10 +410,10 @@
 
         .modal-content {
             background-color: var(--bg-color-medium);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px var(--shadow-color);
-            max-width: 400px;
+            padding: 1.875rem; /* 30px */
+            border-radius: 0.75rem; /* 12px */
+            box-shadow: 0 0.3125rem 1.25rem var(--shadow-color); /* 5px 20px */
+            max-width: 25rem; /* 400px */
             width: 90%;
             text-align: center;
             position: relative;
@@ -387,15 +425,15 @@
         .modal-content h3 {
             color: var(--primary-color);
             margin-top: 0;
-            margin-bottom: 20px;
+            margin-bottom: 1.25rem; /* 20px */
             font-size: 1.8em;
         }
 
         .modal-content input[type="text"] {
-            width: calc(100% - 40px); /* Adjust for padding */
-            margin-bottom: 15px;
-            padding: 12px 20px;
-            border-radius: 25px;
+            width: calc(100% - 2.5rem); /* Adjust for padding (40px) */
+            margin-bottom: 0.9375rem; /* 15px */
+            padding: 0.75rem 1.25rem; /* 12px 20px */
+            border-radius: 1.5625rem; /* 25px */
             border: 1px solid rgba(15, 52, 96, 0.3);
             background: rgba(42, 42, 74, 0.6);
             color: var(--text-color-light);
@@ -405,8 +443,8 @@
         .modal-buttons-group {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 0.625rem; /* 10px */
+            margin-top: 0.625rem; /* 10px */
         }
 
         .modal-buttons-group button {
@@ -416,14 +454,14 @@
 
         .modal-close-button {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 0.625rem; /* 10px */
+            right: 0.625rem; /* 10px */
             background: none;
             border: none;
             color: var(--text-color-light);
             font-size: 1.5em;
             cursor: pointer;
-            padding: 5px;
+            padding: 0.3125rem; /* 5px */
             border-radius: 50%;
             transition: background-color 0.2s ease;
         }
@@ -432,27 +470,26 @@
             background-color: rgba(233, 69, 96, 0.2);
         }
 
-        /* New bottom-right room switcher styles */
-        /* Container for bottom-right elements */
+        /* Container for bottom-right fixed controls */
         .bottom-right-controls {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 1.25rem; /* 20px */
+            right: 1.25rem; /* 20px */
             display: flex;
             flex-direction: column;
-            gap: 10px; /* Space between elements */
+            gap: 0.625rem; /* 10px */
             z-index: 999;
         }
 
         #quick-room-switcher {
             background-color: rgba(22, 33, 62, 0.8);
             border: 1px solid rgba(15, 52, 96, 0.3);
-            border-radius: 12px;
-            padding: 15px;
-            box-shadow: 0 5px 20px var(--shadow-color);
+            border-radius: 0.75rem; /* 12px */
+            padding: 0.9375rem; /* 15px */
+            box-shadow: 0 0.3125rem 1.25rem var(--shadow-color); /* 5px 20px */
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 0.625rem; /* 10px */
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
         }
@@ -464,10 +501,10 @@
         /* Style for the Go to General Room button (now at top right) */
         #go-to-general-btn {
             position: fixed; /* Fixed position relative to viewport */
-            top: 20px;       /* 20px from the top */
-            right: 20px;     /* 20px from the right */
-            padding: 8px 15px; /* Smaller padding */
-            border-radius: 20px; /* More rounded */
+            top: 1.25rem;       /* 20px */
+            right: 1.25rem;     /* 20px */
+            padding: 0.5rem 0.9375rem; /* 8px 15px */
+            border-radius: 1.25rem; /* 20px */
             background-color: var(--border-color); /* Dark blue from theme */
             color: var(--text-color-light); /* Light text */
             font-size: 0.85em; /* Smaller font */
@@ -477,26 +514,26 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             border: none;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.2); /* 2px 5px */
             z-index: 1000; /* Ensure it's on top of other content */
         }
 
         #go-to-general-btn:hover {
             background-color: #1a4a7a; /* Slightly lighter blue on hover */
-            transform: translateY(-1px);
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+            transform: translateY(-0.0625rem); /* -1px */
+            box-shadow: 0 0.1875rem 0.5rem rgba(0, 0, 0, 0.3); /* 3px 8px */
         }
 
         #go-to-general-btn:active {
             transform: translateY(0);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.2); /* 1px 3px */
         }
 
 
         #quick-room-select {
             width: 100%;
-            padding: 10px 15px;
-            border-radius: 20px;
+            padding: 0.625rem 0.9375rem; /* 10px 15px */
+            border-radius: 1.25rem; /* 20px */
             border: 1px solid rgba(15, 52, 96, 0.3);
             background: rgba(42, 42, 74, 0.6);
             color: var(--text-color-light);
@@ -504,9 +541,9 @@
             appearance: none;
             background-image: url('data:image/svg+xml;utf8,<svg fill="%23e0e0e0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
             background-repeat: no-repeat;
-            background-position: right 10px center;
-            background-size: 18px;
-            padding-right: 35px;
+            background-position: right 0.625rem center; /* 10px */
+            background-size: 1.125rem; /* 18px */
+            padding-right: 2.1875rem; /* 35px */
         }
 
         #quick-room-select option {
@@ -516,21 +553,24 @@
 
         /* Responsive adjustments */
         @media (max-width: 1024px) { /* Adjust for smaller desktops/large tablets */
+            html {
+                font-size: 15px; /* Slightly smaller base font */
+            }
             .chat-container {
                 flex-direction: column; /* Stack all sections vertically */
-                max-width: 700px; /* Reduce max-width for stacked layout */
+                max-width: 43.75rem; /* 700px */
             }
             #room-management-container,
             #user-list-container {
                 width: 100%; /* Full width when stacked */
-                max-height: 250px; /* Limit height for better flow */
+                max-height: 15.625rem; /* 250px */
             }
             #user-list {
-                max-height: 150px; /* Adjust inner list height */
+                max-height: 9.375rem; /* 150px */
             }
             .bottom-right-controls {
                 position: static; /* Make it flow with content on smaller screens */
-                margin-top: 20px;
+                margin-top: 1.25rem; /* 20px */
                 width: 100%;
                 flex-direction: row; /* Arrange buttons side-by-side if enough space */
                 justify-content: center;
@@ -539,40 +579,46 @@
             #quick-room-switcher {
                 width: auto; /* Allow buttons to size content */
                 flex-grow: 1; /* Allow them to grow if in a flex row */
-                border-radius: 8px; /* Less rounded corners for integrated look */
+                border-radius: 0.5rem; /* 8px */
             }
             #go-to-general-btn {
                 position: static; /* Make it flow with content on smaller screens */
-                margin-top: 10px; /* Add some space if it's stacked */
+                margin-top: 0.625rem; /* 10px */
                 width: 100%; /* Full width when stacked */
-                border-radius: 8px;
+                border-radius: 0.5rem; /* 8px */
             }
             #initial-lobby-screen {
-                padding: 20px;
+                padding: 1.25rem; /* 20px */
             }
         }
 
         @media (max-width: 768px) {
+            html {
+                font-size: 14px; /* Even smaller base font */
+            }
             body {
-                padding: 15px;
+                padding: 0.9375rem; /* 15px */
             }
             h1 {
                 font-size: 2.2em;
             }
             .chat-container {
-                padding: 15px;
+                padding: 0.9375rem; /* 15px */
             }
             .modal-content button {
                 width: 100%;
-                margin: 5px 0;
+                margin: 0.3125rem 0; /* 5px */
             }
             .bottom-right-controls {
                 flex-direction: column; /* Stack buttons vertically on very small screens */
             }
         }
         @media (max-width: 480px) {
+            html {
+                font-size: 13px; /* Smallest base font */
+            }
             body {
-                padding: 10px;
+                padding: 0.625rem; /* 10px */
             }
             h1 {
                 font-size: 1.8em;
@@ -582,2451 +628,7 @@
 </head>
 <body>
     <div id="initial-lobby-screen">
-        <h1><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HyperCHAT</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color-dark: #1a1a2e;
-            --bg-color-medium: #16213e;
-            --bg-color-light: #2a2a4a;
-            --primary-color: #e94560; /* A vibrant red/pink */
-            --text-color-light: #e0e0e0;
-            --text-color-dark: #333;
-            --border-color: #0f3460;
-            --shadow-color: rgba(0, 0, 0, 0.4);
-            --secondary-text-color: #99aab5;
-        }
-
-        body {
-            font-family: 'Roboto', Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: var(--bg-color-dark);
-            color: var(--text-color-light);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            box-sizing: border-box;
-            background-image: linear-gradient(135deg, #1a1a2e 0%, #0f3460 50%, #e94560 100%);
-            justify-content: center; /* Center content vertically for lobby */
-        }
-
-        h1 {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 10px;
-            text-align: center;
-            font-size: 2.8em;
-            margin-bottom: 30px;
-            text-shadow: 0 0 8px var(--primary-color), 0 0 15px white, 0 0 25px var(--primary-color);
-            animation: glow 2s infinite alternate;
-            letter-spacing: 1px;
-        }
-
-        @keyframes glow {
-            0% {
-                text-shadow: 0 0 8px var(--primary-color), 0 0 15px white, 0 0 25px var(--primary-color);
-            }
-            100% {
-                text-shadow: 0 0 12px white, 0 0 25px var(--primary-color), 0 0 40px white;
-            }
-        }
-
-        /* Initial Lobby Screen Styles */
-        #initial-lobby-screen {
-            background-color: rgba(22, 33, 62, 0.8); /* Slightly more opaque for focus */
-            border: 1px solid rgba(15, 52, 96, 0.5);
-            border-radius: 12px;
-            box-shadow: 0 5px 20px var(--shadow-color);
-            padding: 40px;
-            width: 100%;
-            max-width: 450px; /* Reasonable width for lobby screen */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px; /* Spacing for main elements */
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            text-align: center;
-        }
-
-        #initial-lobby-screen h1 {
-            margin-bottom: 20px; /* Adjust margin for lobby screen */
-        }
-
-        /* Username form specific styles */
-        #username-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px; /* Added gap here for spacing between input and button */
-            width: 100%; /* Ensure it takes full width of parent */
-        }
-
-        #username-form input[type="text"] {
-            width: calc(100% - 40px); /* Full width minus padding */
-            margin-bottom: 0; /* No bottom margin, use gap */
-        }
-
-        #username-form button {
-            width: 100%; /* Full width for button */
-        }
-
-        /* Lobby room actions container for spacing buttons */
-        .lobby-room-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 15px; /* Space between create and join buttons */
-            width: 100%; /* Ensure it takes full width of parent */
-        }
-
-        /* Main Chat Container Styles */
-        .chat-container {
-            background-color: rgba(22, 33, 62, 0.6);
-            border: 1px solid rgba(15, 52, 96, 0.3);
-            border-radius: 12px;
-            box-shadow: 0 5px 20px var(--shadow-color);
-            padding: 25px;
-            width: 100%;
-            max-width: 1200px; /* Increased max-width for three-column layout */
-            display: flex;
-            gap: 20px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            /* Initially hidden, controlled by JS */
-            display: none; /* Hidden by default */
-            margin-top: 0; /* Adjust if body padding changes */
-        }
-
-        .chat-main {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #chat-window {
-            background: rgba(42, 42, 74, 0.6);
-            border: 1px solid rgba(15, 52, 96, 0.3);
-            padding: 15px;
-            height: 400px;
-            overflow-y: auto;
-            border-radius: 8px;
-            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            flex-grow: 1;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        .message-container {
-            background-color: rgba(22, 33, 62, 0.7);
-            padding: 10px 15px;
-            border-radius: 18px;
-            max-width: 85%;
-            word-wrap: break-word;
-            line-height: 1.5;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .message-container strong {
-            color: var(--primary-color);
-            font-weight: 700;
-        }
-
-        .timestamp {
-            font-size: 0.75em;
-            color: var(--secondary-text-color);
-            margin-left: 10px;
-            display: inline-block;
-            float: right;
-            line-height: 1.8;
-        }
-
-        .action-message {
-            font-style: italic;
-            color: #90ee90;
-            background-color: rgba(58, 58, 90, 0.7);
-            text-align: center;
-            font-size: 0.95em;
-        }
-
-        .system-message { /* Used for internal system feedback like room join/create success/failure */
-            color: #aaddff;
-            font-style: italic;
-            text-align: center;
-            font-size: 0.9em;
-            padding: 5px 10px;
-            background-color: rgba(43, 58, 90, 0.7);
-            border-radius: 8px;
-            margin: 5px 0;
-        }
-
-        #typing-indicator {
-            height: 20px;
-            font-size: 0.85em;
-            color: var(--secondary-text-color);
-            font-style: italic;
-            margin-top: -10px;
-            margin-bottom: 5px;
-        }
-
-        #message-form {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        #message-form.hidden {
-            display: none;
-        }
-
-        input[type="text"] {
-            flex-grow: 1;
-            padding: 12px 20px;
-            border-radius: 25px;
-            border: 1px solid rgba(15, 52, 96, 0.3);
-            background: rgba(42, 42, 74, 0.6);
-            color: var(--text-color-light);
-            font-size: 1em;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-        }
-
-        input[type="text"]::placeholder {
-            color: #888;
-        }
-
-        input[type="text"]:focus {
-            border-color: var(--primary-color);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.3);
-        }
-
-        button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 25px;
-            background-color: var(--primary-color);
-            color: white;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        button:hover {
-            background-color: #d13a52;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Sidebars (User List & Room Management) */
-        #user-list-container,
-        #room-management-container {
-            width: 250px; /* Fixed width for sidebars */
-            min-width: 180px;
-            background-color: rgba(42, 42, 74, 0.6);
-            border: 1px solid rgba(15, 52, 96, 0.3);
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            flex-shrink: 0;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        #user-list-container h2,
-        #room-management-container h2 {
-            color: var(--primary-color);
-            font-size: 1.3em;
-            margin-top: 0;
-            margin-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 8px;
-            text-align: center;
-        }
-
-        #user-list, #room-select { /* Adjusted for dropdown */
-            list-style: none; /* For ul, not select */
-            padding: 0;
-            margin: 0;
-            overflow-y: auto;
-            max-height: 400px; /* Match chat window height */
-        }
-
-        #user-list li {
-            padding: 5px 0;
-            color: var(--text-color-light);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        #user-list li::before {
-            content: '•';
-            color: #00ff00;
-            font-size: 1.5em;
-            line-height: 0;
-        }
-
-        /* Room Specific Styles */
-        #current-room-display {
-            font-weight: bold;
-            color: #fff;
-            text-align: center;
-            margin-bottom: 10px;
-            padding: 8px;
-            background-color: rgba(233, 69, 96, 0.2);
-            border-radius: 5px;
-        }
-
-        #room-select {
-            width: 100%;
-            padding: 12px 20px;
-            border-radius: 25px;
-            border: 1px solid rgba(15, 52, 96, 0.3);
-            background: rgba(42, 42, 74, 0.6);
-            color: var(--text-color-light);
-            font-size: 1em;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            appearance: none; /* Remove default dropdown arrow */
-            background-image: url('data:image/svg+xml;utf8,<svg fill="%23e0e0e0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            background-size: 20px;
-            padding-right: 40px; /* Make space for the custom arrow */
-            margin-bottom: 10px;
-        }
-
-        #room-select option {
-            background-color: var(--bg-color-medium);
-            color: var(--text-color-light);
-        }
-
-        .room-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background-color: var(--bg-color-medium);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px var(--shadow-color);
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-            position: relative;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(15, 52, 96, 0.3);
-        }
-
-        .modal-content h3 {
-            color: var(--primary-color);
-            margin-top: 0;
-            margin-bottom: 20px;
-            font-size: 1.8em;
-        }
-
-        .modal-content input[type="text"] {
-            width: calc(100% - 40px); /* Adjust for padding */
-            margin-bottom: 15px;
-            padding: 12px 20px;
-            border-radius: 25px;
-            border: 1px solid rgba(15, 52, 96, 0.3);
-            background: rgba(42, 42, 74, 0.6);
-            color: var(--text-color-light);
-            font-size: 1em;
-        }
-
-        .modal-buttons-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .modal-buttons-group button {
-            width: 100%;
-            margin: 0;
-        }
-
-        .modal-close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
-            color: var(--text-color-light);
-            font-size: 1.5em;
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 50%;
-            transition: background-color 0.2s ease;
-        }
-
-        .modal-close-button:hover {
-            background-color: rgba(233, 69, 96, 0.2);
-        }
-
-        /* New bottom-right room switcher styles */
-        /* Container for bottom-right elements */
-        .bottom-right-controls {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px; /* Space between elements */
-            z-index: 999;
-        }
-
-        #quick-room-switcher {
-            background-color: rgba(22, 33, 62, 0.8);
-            border: 1px solid rgba(15, 52, 96, 0.3);
-            border-radius: 12px;
-            padding: 15px;
-            box-shadow: 0 5px 20px var(--shadow-color);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        #quick-room-switcher.hidden {
-            display: none;
-        }
-
-        /* Style for the Go to General Room button (now at top right) */
-        #go-to-general-btn {
-            position: fixed; /* Fixed position relative to viewport */
-            top: 20px;       /* 20px from the top */
-            right: 20px;     /* 20px from the right */
-            padding: 8px 15px; /* Smaller padding */
-            border-radius: 20px; /* More rounded */
-            background-color: var(--border-color); /* Dark blue from theme */
-            color: var(--text-color-light); /* Light text */
-            font-size: 0.85em; /* Smaller font */
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border: none;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            z-index: 1000; /* Ensure it's on top of other content */
-        }
-
-        #go-to-general-btn:hover {
-            background-color: #1a4a7a; /* Slightly lighter blue on hover */
-            transform: translateY(-1px);
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        #go-to-general-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
-
-
-        #quick-room-select {
-            width: 100%;
-            padding: 10px 15px;
-            border-radius: 20px;
-            border: 1px solid rgba(15, 52, 96, 0.3);
-            background: rgba(42, 42, 74, 0.6);
-            color: var(--text-color-light);
-            font-size: 0.95em;
-            appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg fill="%23e0e0e0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            background-size: 18px;
-            padding-right: 35px;
-        }
-
-        #quick-room-select option {
-            background-color: var(--bg-color-medium);
-            color: var(--text-color-light);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 1024px) { /* Adjust for smaller desktops/large tablets */
-            .chat-container {
-                flex-direction: column; /* Stack all sections vertically */
-                max-width: 700px; /* Reduce max-width for stacked layout */
-            }
-            #room-management-container,
-            #user-list-container {
-                width: 100%; /* Full width when stacked */
-                max-height: 250px; /* Limit height for better flow */
-            }
-            #user-list {
-                max-height: 150px; /* Adjust inner list height */
-            }
-            .bottom-right-controls {
-                position: static; /* Make it flow with content on smaller screens */
-                margin-top: 20px;
-                width: 100%;
-                flex-direction: row; /* Arrange buttons side-by-side if enough space */
-                justify-content: center;
-                flex-wrap: wrap; /* Allow wrapping if not enough space */
-            }
-            #quick-room-switcher {
-                width: auto; /* Allow buttons to size content */
-                flex-grow: 1; /* Allow them to grow if in a flex row */
-                border-radius: 8px; /* Less rounded corners for integrated look */
-            }
-            #go-to-general-btn {
-                position: static; /* Make it flow with content on smaller screens */
-                margin-top: 10px; /* Add some space if it's stacked */
-                width: 100%; /* Full width when stacked */
-                border-radius: 8px;
-            }
-            #initial-lobby-screen {
-                padding: 20px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 15px;
-            }
-            h1 {
-                font-size: 2.2em;
-            }
-            .chat-container {
-                padding: 15px;
-            }
-            .modal-content button {
-                width: 100%;
-                margin: 5px 0;
-            }
-            .bottom-right-controls {
-                flex-direction: column; /* Stack buttons vertically on very small screens */
-            }
-        }
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-            h1 {
-                font-size: 1.8em;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div id="initial-lobby-screen">
-        <h1><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HyperCHAT</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color-dark: #1a1a2e;
-            --bg-color-medium: #16213e;
-            --bg-color-light: #2a2a4a;
-            --primary-color: #e94560; /* A vibrant red/pink */
-            --text-color-light: #e0e0e0;
-            --text-color-dark: #333;
-            --border-color: #0f3460;
-            --shadow-color: rgba(0, 0, 0, 0.4);
-            --secondary-text-color: #99aab5;
-        }
-
-        body {
-            font-family: 'Roboto', Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: var(--bg-color-dark);
-            color: var(--text-color-light);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            box-sizing: border-box;
-            background-image: linear-gradient(135deg, #1a1a2e 0%, #0f3460 50%, #e94560 100%);
-            justify-content: center; /* Center content vertically for lobby */
-        }
-
-        h1 {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 10px;
-            text-align: center;
-            font-size: 2.8em;
-            margin-bottom: 30px;
-            text-shadow: 0 0 8px var(--primary-color), 0 0 15px white, 0 0 25px var(--primary-color);
-            animation: glow 2s infinite alternate;
-            letter-spacing: 1px;
-        }
-
-        @keyframes glow {
-            0% {
-                text-shadow: 0 0 8px var(--primary-color), 0 0 15px white, 0 0 25px var(--primary-color);
-            }
-            100% {
-                text-shadow: 0 0 12px white, 0 0 25px var(--primary-color), 0 0 40px white;
-            }
-        }
-
-        /* Initial Lobby Screen Styles */
-        #initial-lobby-screen {
-            background-color: rgba(22, 33, 62, 0.8); /* Slightly more opaque for focus */
-            border: 1px solid rgba(15, 52, 96, 0.5);
-            border-radius: 12px;
-            box-shadow: 0 5px 20px var(--shadow-color);
-            padding: 40px;
-            width: 100%;
-            max-width: 450px; /* Reasonable width for lobby screen */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px; /* Spacing for main elements */
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            text-align: center;
-        }
-
-        #initial-lobby-screen h1 {
-            margin-bottom: 20px; /* Adjust margin for lobby screen */
-        }
-
-        /* Username form specific styles */
-        #username-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px; /* Added gap here for spacing between input and button */
-            width: 100%; /* Ensure it takes full width of parent */
-        }
-
-        #username-form input[type="text"] {
-            width: calc(100% - 40px); /* Full width minus padding */
-            margin-bottom: 0; /* No bottom margin, use gap */
-        }
-
-        #username-form button {
-            width: 100%; /* Full width for button */
-        }
-
-        /* Lobby room actions container for spacing buttons */
-        .lobby-room-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 15px; /* Space between create and join buttons */
-            width: 100%; /* Ensure it takes full width of parent */
-        }
-
-        /* Main Chat Container Styles */
-        .chat-container {
-            background-color: rgba(22, 33, 62, 0.6);
-            border: 1px solid rgba(15, 52, 96, 0.3);
-            border-radius: 12px;
-            box-shadow: 0 5px 20px var(--shadow-color);
-            padding: 25px;
-            width: 100%;
-            max-width: 1200px; /* Increased max-width for three-column layout */
-            display: flex;
-            gap: 20px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            /* Initially hidden, controlled by JS */
-            display: none; /* Hidden by default */
-            margin-top: 0; /* Adjust if body padding changes */
-        }
-
-        .chat-main {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #chat-window {
-            background: rgba(42, 42, 74, 0.6);
-            border: 1px solid rgba(15, 52, 96, 0.3);
-            padding: 15px;
-            height: 400px;
-            overflow-y: auto;
-            border-radius: 8px;
-            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            flex-grow: 1;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        .message-container {
-            background-color: rgba(22, 33, 62, 0.7);
-            padding: 10px 15px;
-            border-radius: 18px;
-            max-width: 85%;
-            word-wrap: break-word;
-            line-height: 1.5;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .message-container strong {
-            color: var(--primary-color);
-            font-weight: 700;
-        }
-
-        .timestamp {
-            font-size: 0.75em;
-            color: var(--secondary-text-color);
-            margin-left: 10px;
-            display: inline-block;
-            float: right;
-            line-height: 1.8;
-        }
-
-        .action-message {
-            font-style: italic;
-            color: #90ee90;
-            background-color: rgba(58, 58, 90, 0.7);
-            text-align: center;
-            font-size: 0.95em;
-        }
-
-        .system-message { /* Used for internal system feedback like room join/create success/failure */
-            color: #aaddff;
-            font-style: italic;
-            text-align: center;
-            font-size: 0.9em;
-            padding: 5px 10px;
-            background-color: rgba(43, 58, 90, 0.7);
-            border-radius: 8px;
-            margin: 5px 0;
-        }
-
-        #typing-indicator {
-            height: 20px;
-            font-size: 0.85em;
-            color: var(--secondary-text-color);
-            font-style: italic;
-            margin-top: -10px;
-            margin-bottom: 5px;
-        }
-
-        #message-form {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        #message-form.hidden {
-            display: none;
-        }
-
-        input[type="text"] {
-            flex-grow: 1;
-            padding: 12px 20px;
-            border-radius: 25px;
-            border: 1px solid rgba(15, 52, 96, 0.3);
-            background: rgba(42, 42, 74, 0.6);
-            color: var(--text-color-light);
-            font-size: 1em;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-        }
-
-        input[type="text"]::placeholder {
-            color: #888;
-        }
-
-        input[type="text"]:focus {
-            border-color: var(--primary-color);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.3);
-        }
-
-        button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 25px;
-            background-color: var(--primary-color);
-            color: white;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        button:hover {
-            background-color: #d13a52;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Sidebars (User List & Room Management) */
-        #user-list-container,
-        #room-management-container {
-            width: 250px; /* Fixed width for sidebars */
-            min-width: 180px;
-            background-color: rgba(42, 42, 74, 0.6);
-            border: 1px solid rgba(15, 52, 96, 0.3);
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            flex-shrink: 0;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        #user-list-container h2,
-        #room-management-container h2 {
-            color: var(--primary-color);
-            font-size: 1.3em;
-            margin-top: 0;
-            margin-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 8px;
-            text-align: center;
-        }
-
-        #user-list, #room-select { /* Adjusted for dropdown */
-            list-style: none; /* For ul, not select */
-            padding: 0;
-            margin: 0;
-            overflow-y: auto;
-            max-height: 400px; /* Match chat window height */
-        }
-
-        #user-list li {
-            padding: 5px 0;
-            color: var(--text-color-light);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        #user-list li::before {
-            content: '•';
-            color: #00ff00;
-            font-size: 1.5em;
-            line-height: 0;
-        }
-
-        /* Room Specific Styles */
-        #current-room-display {
-            font-weight: bold;
-            color: #fff;
-            text-align: center;
-            margin-bottom: 10px;
-            padding: 8px;
-            background-color: rgba(233, 69, 96, 0.2);
-            border-radius: 5px;
-        }
-
-        #room-select {
-            width: 100%;
-            padding: 12px 20px;
-            border-radius: 25px;
-            border: 1px solid rgba(15, 52, 96, 0.3);
-            background: rgba(42, 42, 74, 0.6);
-            color: var(--text-color-light);
-            font-size: 1em;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            appearance: none; /* Remove default dropdown arrow */
-            background-image: url('data:image/svg+xml;utf8,<svg fill="%23e0e0e0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            background-size: 20px;
-            padding-right: 40px; /* Make space for the custom arrow */
-            margin-bottom: 10px;
-        }
-
-        #room-select option {
-            background-color: var(--bg-color-medium);
-            color: var(--text-color-light);
-        }
-
-        .room-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background-color: var(--bg-color-medium);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px var(--shadow-color);
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-            position: relative;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(15, 52, 96, 0.3);
-        }
-
-        .modal-content h3 {
-            color: var(--primary-color);
-            margin-top: 0;
-            margin-bottom: 20px;
-            font-size: 1.8em;
-        }
-
-        .modal-content input[type="text"] {
-            width: calc(100% - 40px); /* Adjust for padding */
-            margin-bottom: 15px;
-            padding: 12px 20px;
-            border-radius: 25px;
-            border: 1px solid rgba(15, 52, 96, 0.3);
-            background: rgba(42, 42, 74, 0.6);
-            color: var(--text-color-light);
-            font-size: 1em;
-        }
-
-        .modal-buttons-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .modal-buttons-group button {
-            width: 100%;
-            margin: 0;
-        }
-
-        .modal-close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
-            color: var(--text-color-light);
-            font-size: 1.5em;
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 50%;
-            transition: background-color 0.2s ease;
-        }
-
-        .modal-close-button:hover {
-            background-color: rgba(233, 69, 96, 0.2);
-        }
-
-        /* New bottom-right room switcher styles */
-        /* Container for bottom-right elements */
-        .bottom-right-controls {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px; /* Space between elements */
-            z-index: 999;
-        }
-
-        #quick-room-switcher {
-            background-color: rgba(22, 33, 62, 0.8);
-            border: 1px solid rgba(15, 52, 96, 0.3);
-            border-radius: 12px;
-            padding: 15px;
-            box-shadow: 0 5px 20px var(--shadow-color);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        #quick-room-switcher.hidden {
-            display: none;
-        }
-
-        /* Style for the Go to General Room button (now at top right) */
-        #go-to-general-btn {
-            position: fixed; /* Fixed position relative to viewport */
-            top: 20px;       /* 20px from the top */
-            right: 20px;     /* 20px from the right */
-            padding: 8px 15px; /* Smaller padding */
-            border-radius: 20px; /* More rounded */
-            background-color: var(--border-color); /* Dark blue from theme */
-            color: var(--text-color-light); /* Light text */
-            font-size: 0.85em; /* Smaller font */
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border: none;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            z-index: 1000; /* Ensure it's on top of other content */
-        }
-
-        #go-to-general-btn:hover {
-            background-color: #1a4a7a; /* Slightly lighter blue on hover */
-            transform: translateY(-1px);
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        #go-to-general-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
-
-
-        #quick-room-select {
-            width: 100%;
-            padding: 10px 15px;
-            border-radius: 20px;
-            border: 1px solid rgba(15, 52, 96, 0.3);
-            background: rgba(42, 42, 74, 0.6);
-            color: var(--text-color-light);
-            font-size: 0.95em;
-            appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg fill="%23e0e0e0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            background-size: 18px;
-            padding-right: 35px;
-        }
-
-        #quick-room-select option {
-            background-color: var(--bg-color-medium);
-            color: var(--text-color-light);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 1024px) { /* Adjust for smaller desktops/large tablets */
-            .chat-container {
-                flex-direction: column; /* Stack all sections vertically */
-                max-width: 700px; /* Reduce max-width for stacked layout */
-            }
-            #room-management-container,
-            #user-list-container {
-                width: 100%; /* Full width when stacked */
-                max-height: 250px; /* Limit height for better flow */
-            }
-            #user-list {
-                max-height: 150px; /* Adjust inner list height */
-            }
-            .bottom-right-controls {
-                position: static; /* Make it flow with content on smaller screens */
-                margin-top: 20px;
-                width: 100%;
-                flex-direction: row; /* Arrange buttons side-by-side if enough space */
-                justify-content: center;
-                flex-wrap: wrap; /* Allow wrapping if not enough space */
-            }
-            #quick-room-switcher {
-                width: auto; /* Allow buttons to size content */
-                flex-grow: 1; /* Allow them to grow if in a flex row */
-                border-radius: 8px; /* Less rounded corners for integrated look */
-            }
-            #go-to-general-btn {
-                position: static; /* Make it flow with content on smaller screens */
-                margin-top: 10px; /* Add some space if it's stacked */
-                width: 100%; /* Full width when stacked */
-                border-radius: 8px;
-            }
-            #initial-lobby-screen {
-                padding: 20px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 15px;
-            }
-            h1 {
-                font-size: 2.2em;
-            }
-            .chat-container {
-                padding: 15px;
-            }
-            .modal-content button {
-                width: 100%;
-                margin: 5px 0;
-            }
-            .bottom-right-controls {
-                flex-direction: column; /* Stack buttons vertically on very small screens */
-            }
-        }
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-            h1 {
-                font-size: 1.8em;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div id="initial-lobby-screen">
-        <h1>H Y P E R C H A T</h1>
-        <div class="lobby-room-actions">
-            <button id="create-room-btn-lobby" aria-label="Create New Room">Create Room</button>
-            <button id="join-room-btn-lobby" aria-label="Join Existing Room">Join Room</button>
-        </div>
-        <section id="username-form">
-            <label for="username" class="sr-only">Choose your username</label>
-            <input type="text" id="username" autocomplete="off" placeholder="Choose your username" aria-label="Choose your username" maxlength="15" />
-            <button id="set-username" aria-label="Set Username">Set Username</button>
-        </section>
-    </div>
-
-    <div class="chat-container"> <!-- Initially hidden via JS, shown when in CHAT_MODE -->
-        <aside id="room-management-container" class="hidden"> <!-- Hidden until user explicitly opens it -->
-            <button class="modal-close-button" id="close-room-management" aria-label="Close Room Management">&times;</button>
-            <h2>Rooms</h2>
-            <div id="current-room-display">Current Room: General</div>
-            <select id="room-select" aria-label="Select Chat Room">
-                <!-- Options will be dynamically loaded here -->
-            </select>
-            <div class="room-buttons">
-                <button id="create-room-btn" aria-label="Create New Room">Create Room</button>
-                <button id="join-room-btn" aria-label="Join Existing Room">Join Room</button>
-            </div>
-        </aside>
-
-        <section class="chat-main">
-            <section id="chat-window" aria-live="polite" aria-atomic="true">
-                </section>
-
-            <div id="typing-indicator" role="status" aria-live="polite"></div>
-
-            <section id="message-form">
-                <label for="message" class="sr-only">Type your message</label>
-                <input type="text" id="message" autocomplete="off" placeholder="Type your message here..." aria-label="Type your message" />
-                <button id="send-message" aria-label="Send Message">Send</button>
-            </section>
-        </section>
-
-        <aside id="user-list-container">
-            <h2>Online Users</h2>
-            <ul id="user-list">
-                </ul>
-        </aside>
-    </div>
-
-    <!-- Modals for Room Management -->
-    <div id="create-room-modal" class="modal-overlay">
-        <div class="modal-content">
-            <button class="modal-close-button" aria-label="Close Modal">&times;</button>
-            <h3>Create New Room</h3>
-            <input type="text" id="new-room-name" placeholder="Room Name" maxlength="20" />
-            <input type="text" id="new-room-pin" placeholder="Unique PIN/ID (e.g., 1234)" maxlength="10" />
-            <div class="modal-buttons-group">
-                <button id="save-new-room">Create</button>
-                <button id="cancel-create-room-btn">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="join-room-modal" class="modal-overlay">
-        <div class="modal-content">
-            <button class="modal-close-button" aria-label="Close Modal">&times;</button>
-            <h3>Join Room</h3>
-            <input type="text" id="join-room-pin" placeholder="Enter Room PIN/ID" maxlength="10" />
-            <div class="modal-buttons-group">
-                <button id="confirm-join-room">Join</button>
-                <button id="cancel-join-room-btn">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- New Go to General Room button (fixed top right) -->
-    <button id="go-to-general-btn" aria-label="Go to General Room">Go to General Room</button>
-
-    <!-- Container for bottom-right fixed controls (only quick room switcher now) -->
-    <div class="bottom-right-controls">
-        <div id="quick-room-switcher" class="hidden">
-            <select id="quick-room-select" aria-label="Quick Room Selector">
-                <!-- Options populated dynamically -->
-            </select>
-        </div>
-    </div>
-
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io();
-        let username = '';
-        let currentRoomId = null; // Changed to null: user is not in a room initially
-        let typingTimeout; // For typing indicator
-        const chatHistoryByRoom = {}; // Store chat history per room on client-side
-
-        // DOM Elements
-        const usernameInput = document.getElementById('username');
-        const setUsernameButton = document.getElementById('set-username');
-        const usernameForm = document.getElementById('username-form');
-
-        // Initial Lobby Screen elements
-        const initialLobbyScreen = document.getElementById('initial-lobby-screen');
-        const createRoomBtnLobby = document.getElementById('create-room-btn-lobby');
-        const joinRoomBtnLobby = document.getElementById('join-room-btn-lobby');
-
-        // Main chat container
-        const mainChatContainer = document.querySelector('.chat-container');
-        const chatWindow = document.getElementById('chat-window');
-        const messageInput = document.getElementById('message');
-        const sendMessageButton = document.getElementById('send-message');
-        const messageForm = document.getElementById('message-form');
-        const typingIndicator = document.getElementById('typing-indicator');
-        const userListElement = document.getElementById('user-list');
-
-        // Room specific DOM elements (for sidebar)
-        const roomManagementContainer = document.getElementById('room-management-container');
-        const closeRoomManagementBtn = document.getElementById('close-room-management');
-        const currentRoomDisplay = document.getElementById('current-room-display');
-        const roomSelect = document.getElementById('room-select'); // Main room select in sidebar
-        const createRoomBtn = document.getElementById('create-room-btn'); // Sidebar button
-        const joinRoomBtn = document.getElementById('join-room-btn');     // Sidebar button
-
-        // Modals
-        const createRoomModal = document.getElementById('create-room-modal');
-        const newRoomNameInput = document.getElementById('new-room-name');
-        const newRoomPinInput = document.getElementById('new-room-pin');
-        const saveNewRoomBtn = document.getElementById('save-new-room');
-        const cancelCreateRoomBtn = document.getElementById('cancel-create-room-btn');
-
-        const joinRoomModal = document.getElementById('join-room-modal');
-        const joinRoomPinInput = document.getElementById('join-room-pin');
-        const confirmJoinRoomBtn = document.getElementById('confirm-join-room');
-        const cancelJoinRoomBtn = document.getElementById('cancel-join-room-btn');
-
-        // Quick room switcher elements
-        const quickRoomSwitcher = document.getElementById('quick-room-switcher');
-        const quickRoomSelect = document.getElementById('quick-room-select');
-        const goToGeneralBtn = document.getElementById('go-to-general-btn'); // New button element
-
-
-        // --- UI State Management ---
-        // Defines the different visual states of the application based on user interaction
-        function setUiMode(mode) {
-            // Hide all main containers first
-            initialLobbyScreen.style.display = 'none';
-            mainChatContainer.style.display = 'none';
-            roomManagementContainer.style.display = 'none';
-            quickRoomSwitcher.style.display = 'none';
-            messageForm.style.display = 'none';
-
-            // Default hide general button, then show conditionally
-            goToGeneralBtn.style.display = 'none'; // Reset its visibility
-
-            if (mode === 'CHAT_MODE') { // User is in a chat room
-                mainChatContainer.style.display = 'flex'; // Use flex for chat layout
-                messageForm.style.display = 'flex'; // Use flex for message form
-                quickRoomSwitcher.style.display = 'flex'; // Use flex for quick switcher
-                messageInput.focus();
-                chatWindow.innerHTML = ''; // Clear chat window when entering chat mode
-
-                // Show "Go to General" button if not in General room
-                if (currentRoomId && currentRoomId !== 'general') {
-                    goToGeneralBtn.style.display = 'block';
-                }
-
-            } else if (mode === 'LOBBY_MODE') { // User is in the initial lobby, needs to select/create a room
-                initialLobbyScreen.style.display = 'flex'; // Use flex for lobby layout
-                usernameInput.focus(); // Focus username input in lobby
-                // When in LOBBY_MODE, the user is not in any specific room, so they should be able to go to General.
-                goToGeneralBtn.style.display = 'block'; // Show in lobby
-            } else if (mode === 'ROOM_MANAGEMENT_MODE') { // User is managing rooms (sidebar open)
-                mainChatContainer.style.display = 'flex'; // Keep main chat layout visible
-                roomManagementContainer.style.display = 'flex'; // Show full room management sidebar
-                quickRoomSwitcher.style.display = 'none'; // Hide quick switcher when sidebar is open
-                messageForm.style.display = 'none'; // Hide message input when managing rooms
-                chatWindow.innerHTML = ''; // Clear chat window
-                displaySystemMessage('Manage your rooms here. Select an existing room or create a new one.');
-                goToGeneralBtn.style.display = 'none'; // Hide "Go to General" button when managing rooms
-            }
-        }
-
-        // Initialize UI mode on load
-        setUiMode('LOBBY_MODE'); // Start in the new lobby state
-
-
-        // Close buttons for modals (these are the 'x' buttons in the top right)
-        document.querySelectorAll('.modal-close-button').forEach(button => {
-            button.addEventListener('click', () => {
-                createRoomModal.classList.remove('active');
-                joinRoomModal.classList.remove('active');
-                // Clear inputs when closing
-                newRoomNameInput.value = '';
-                newRoomPinInput.value = '';
-                joinRoomPinInput.value = '';
-            });
-        });
-
-        // Specific listeners for the new "Cancel" buttons in modals
-        cancelCreateRoomBtn.addEventListener('click', () => {
-            createRoomModal.classList.remove('active');
-            newRoomNameInput.value = '';
-            newRoomPinInput.value = '';
-        });
-
-        cancelJoinRoomBtn.addEventListener('click', () => {
-            joinRoomModal.classList.remove('active');
-            joinRoomPinInput.value = '';
-        });
-
-
-        // Close button for the main room management sidebar
-        closeRoomManagementBtn.addEventListener('click', () => {
-            // When closing the sidebar, return to CHAT_MODE if a room is active, otherwise LOBBY_MODE
-            if (currentRoomId) {
-                setUiMode('CHAT_MODE');
-            } else {
-                setUiMode('LOBBY_MODE');
-            }
-        });
-
-
-        /**
-         * Formats a timestamp into a human-readable time string.
-         * @param {number} timestamp - The timestamp in milliseconds.
-         * @returns {string} Formatted time string (e.g., "03:30 PM").
-         */
-        function formatTime(timestamp) {
-            const date = new Date(timestamp);
-            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
-
-        /**
-         * Displays a general message (chat or action) in the chat window.
-         * @param {object} data - The message data.
-         * @param {boolean} isAction - True if it's an action message.
-         */
-        function displayMessage(data, isAction = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message-container');
-            const time = formatTime(data.timestamp);
-
-            if (isAction) {
-                messageDiv.classList.add('action-message');
-                messageDiv.innerHTML = `* <strong>${data.user}</strong> ${data.text} <span class="timestamp">${time}</span>`;
-            } else {
-                messageDiv.innerHTML = `<strong>${data.user}</strong>: ${data.text} <span class="timestamp">${time}</span>`;
-            }
-            chatWindow.appendChild(messageDiv);
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-        }
-
-        /**
-         * Displays a system-generated message in the chat window.
-         * Used for server-sent messages like "Username taken", room feedback, etc.
-         * @param {string} text - The text of the system message.
-         */
-        function displaySystemMessage(text) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('system-message');
-            messageDiv.innerHTML = text;
-            chatWindow.appendChild(messageDiv);
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-        }
-
-        /**
-         * Handles setting the user's initial username.
-         */
-        function setUsername() {
-            const trimmedUsername = usernameInput.value.trim();
-            if (trimmedUsername) {
-                socket.emit('set initial username', trimmedUsername);
-                username = trimmedUsername; // Client-side username updated immediately for responsiveness
-            } else {
-                alert('Please enter a username!');
-            }
-        }
-
-        /**
-         * Sends a chat message, action, or command to the server for the current room.
-         */
-        function sendMessage() {
-            const message = messageInput.value.trim();
-            if (!message || !username || !currentRoomId) return;
-
-            // Stop typing when message is sent
-            socket.emit('stop typing', currentRoomId); // Pass room ID
-            clearTimeout(typingTimeout);
-            typingIndicator.textContent = '';
-
-
-            if (message.startsWith('/me ')) {
-                const actionText = message.substring(4).trim();
-                if (actionText) {
-                    socket.emit('chat action', { room: currentRoomId, text: actionText, timestamp: Date.now() });
-                }
-            } else if (message.startsWith('/nick ')) {
-                const newNick = message.substring(6).trim();
-                if (newNick) {
-                    socket.emit('change username', newNick); // Nick change is global, not room specific
-                } else {
-                    displaySystemMessage("Please provide a new username, e.g., `/nick NewName`");
-                }
-            } else {
-                socket.emit('chat message', { room: currentRoomId, user: username, text: message, timestamp: Date.now() });
-            }
-            messageInput.value = '';
-        }
-
-        /**
-         * Updates the list of online users for the current room.
-         * @param {Array<string>} users - Array of usernames currently online in the current room.
-         */
-        function updateUserList(users) {
-            userListElement.innerHTML = ''; // Clear current list
-            users.forEach(user => {
-                const listItem = document.createElement('li');
-                listItem.textContent = user;
-                userListElement.appendChild(listItem);
-            });
-        }
-
-        /**
-         * Updates both the main room select and the quick room select dropdowns.
-         * @param {Array<object>} rooms - Array of room objects {id, name, hasPin}.
-         */
-        function updateRoomSelects(rooms) {
-            roomSelect.innerHTML = ''; // Clear main room select options
-            quickRoomSelect.innerHTML = ''; // Clear quick room select options
-
-            rooms.forEach(room => {
-                // Populate main room select (for sidebar) - KEEP THIS
-                const optionMain = document.createElement('option');
-                optionMain.value = room.id;
-                optionMain.textContent = room.name + (room.hasPin ? ' (PIN required)' : '');
-                roomSelect.appendChild(optionMain);
-
-                // THESE ARE THE LINES YOU NEED TO COMMENT OUT OR DELETE FOR THE QUICK SELECT
-                // const optionQuick = document.createElement('option');
-                // optionQuick.value = room.id;
-                // optionQuick.textContent = room.name;
-                // quickRoomSelect.appendChild(optionQuick);
-            });
-
-            // Add "Leave Current Room" option to quick select - KEEP THIS
-            const leaveOption = document.createElement('option');
-            leaveOption.value = 'leave-current-room';
-            leaveOption.textContent = 'Leave Current Room';
-            quickRoomSelect.appendChild(leaveOption);
-
-            // THESE ARE THE LINES YOU NEED TO COMMENT OUT OR DELETE FOR "Manage Rooms..."
-            // const manageOption = document.createElement('option');
-            // manageOption.value = 'manage-rooms';
-            // manageOption.textContent = 'Manage Rooms...';
-            // quickRoomSelect.appendChild(manageOption);
-
-
-            // Ensure both selects reflect the current room
-            if (roomSelect.querySelector(`option[value="${currentRoomId}"]`)) {
-                roomSelect.value = currentRoomId;
-            } else if (rooms.length > 0) {
-                roomSelect.value = rooms[0].id; // Default to first room if current is gone
-            }
-
-            // The quickRoomSelect will now only have 'leave-current-room'
-            // Its value will be set to 'leave-current-room' when in a room,
-            // or remain default if not in a room.
-            if (currentRoomId) {
-                quickRoomSelect.value = 'leave-current-room';
-            } else {
-                // If not in a room, the quick switcher might not even be visible,
-                // or it defaults to the first option if it's the only one.
-            }
-        }
-
-        /**
-         * Switches the client's view to a new room.
-         * @param {string} roomId - The ID of the room to switch to.
-         * @param {string} roomName - The display name of the room.
-         * @param {Array<object>} history - The chat history for the new room.
-         * @param {Array<string>} usersInRoom - The list of users in the new room.
-         */
-        function switchRoomView(roomId, roomName, history, usersInRoom) {
-            currentRoomId = roomId;
-            currentRoomDisplay.textContent = `Current Room: ${roomName}`;
-            roomSelect.value = roomId; // Update main dropdown selection
-            quickRoomSelect.value = 'leave-current-room'; // Always set quick select to leave option
-
-            chatWindow.innerHTML = ''; // Clear current chat display
-            chatHistoryByRoom[roomId] = history; // Store history for this room
-
-            // Display history for the new room
-            history.forEach(msg => {
-                if (msg.type === 'action') {
-                    displayMessage(msg, true);
-                } else if (msg.type === 'message') {
-                    displayMessage(msg);
-                } else if (msg.type === 'system') { // Display system messages from history
-                    displaySystemMessage(msg.text);
-                }
-            });
-            chatWindow.scrollTop = chatWindow.scrollHeight; // Scroll to bottom
-            typingIndicator.textContent = ''; // Clear typing indicator
-            typers.clear(); // Clear local typers list
-            messageInput.focus(); // Focus message input
-
-            updateUserList(usersInRoom); // Update user list for the new room
-            setUiMode('CHAT_MODE'); // Ensure UI is in chat mode after joining a room
-
-            // Show/hide "Go to General" button based on current room
-            if (currentRoomId === 'general') {
-                goToGeneralBtn.style.display = 'none';
-            } else {
-                goToGeneralBtn.style.display = 'block'; // Or 'flex'
-            }
-        }
-
-
-        // Event Listeners
-
-        // Event listeners for the initial lobby buttons
-        setUsernameButton.addEventListener('click', setUsername);
-        usernameInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                setUsername();
-            }
-        });
-
-        createRoomBtnLobby.addEventListener('click', () => {
-            if (!username) { // Check if username is set
-                alert('Please set your username first!');
-                usernameInput.focus();
-                return;
-            }
-            createRoomModal.classList.add('active');
-            newRoomNameInput.focus();
-        });
-
-        joinRoomBtnLobby.addEventListener('click', () => {
-            if (!username) { // Check if username is set
-                alert('Please set your username first!');
-                usernameInput.focus();
-                return;
-            }
-            joinRoomModal.classList.add('active');
-            joinRoomPinInput.focus();
-        });
-
-
-        // Main chat functionality buttons
-        sendMessageButton.addEventListener('click', sendMessage);
-
-        messageInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            } else {
-                // Typing indicator logic
-                if (username && currentRoomId) { // Only emit if user has a username and is in a room
-                    socket.emit('typing', currentRoomId); // Emit typing for the current room
-                    clearTimeout(typingTimeout);
-                    typingTimeout = setTimeout(() => {
-                        socket.emit('stop typing', currentRoomId); // Emit stop typing for the current room
-                    }, 3000); // Stop typing after 3 seconds of inactivity
-                }
-            }
-        });
-
-        // Room control event listeners (for sidebar)
-        createRoomBtn.addEventListener('click', () => {
-            createRoomModal.classList.add('active');
-            newRoomNameInput.focus();
-        });
-
-        joinRoomBtn.addEventListener('click', () => {
-            joinRoomModal.classList.add('active');
-            joinRoomPinInput.focus();
-        });
-
-        saveNewRoomBtn.addEventListener('click', () => {
-            const roomName = newRoomNameInput.value.trim();
-            const roomPin = newRoomPinInput.value.trim();
-            if (roomName && roomPin) {
-                socket.emit('create room', { name: roomName, pin: roomPin });
-                createRoomModal.classList.remove('active');
-                newRoomNameInput.value = '';
-                newRoomPinInput.value = '';
-            } else {
-                displaySystemMessage('Please enter both a room name and a unique PIN/ID.');
-            }
-        });
-
-        confirmJoinRoomBtn.addEventListener('click', () => {
-            const roomPin = joinRoomPinInput.value.trim();
-            if (roomPin) {
-                socket.emit('join room by pin', roomPin);
-                joinRoomModal.classList.remove('active');
-                joinRoomPinInput.value = '';
-            } else {
-                displaySystemMessage('Please enter the room PIN/ID.');
-            }
-        });
-
-        // Main room select (in the sidebar)
-        roomSelect.addEventListener('change', (event) => {
-            const selectedRoomId = event.target.value;
-            if (selectedRoomId !== currentRoomId) {
-                socket.emit('switch room', selectedRoomId);
-            }
-        });
-
-        // Quick room select (bottom right)
-        // CHANGED FROM 'change' TO 'click' FOR RELIABILITY WHEN ONLY ONE OPTION IS PRESENT
-        quickRoomSelect.addEventListener('click', (event) => {
-            const selectedValue = quickRoomSelect.value; // Get the currently selected value
-            if (selectedValue === 'leave-current-room') {
-                displaySystemMessage('Leaving current room...'); // Added feedback
-                socket.emit('leave current room');
-                // No need to reset value here, as setUiMode('LOBBY_MODE') will hide the switcher
-            }
-            // The other else if branches for 'manage-rooms' and other room IDs are already effectively dead
-            // due to the updateRoomSelects function commenting them out.
-        });
-
-        // New event listener for the "Go to General Room" button
-        goToGeneralBtn.addEventListener('click', () => {
-            if (currentRoomId !== 'general') {
-                displaySystemMessage('Switching to General room...');
-                socket.emit('switch room', 'general');
-            }
-        });
-
-
-        // Socket.IO Listeners
-        socket.on('chat message', function(data) {
-            // Only display message if it belongs to the current room
-            if (data.room === currentRoomId) {
-                displayMessage(data);
-                // If the sender was typing, clear their indicator
-                if (typingIndicator.textContent.includes(data.user + ' is typing...')) {
-                    typingIndicator.textContent = '';
-                }
-            }
-        });
-
-        socket.on('chat action', function(data) {
-            // Only display action if it belongs to the current room
-            if (data.room === currentRoomId) {
-                displayMessage(data, true);
-                // If the sender was typing, clear their indicator
-                if (typingIndicator.textContent.includes(data.user + ' is typing...')) {
-                    typingIndicator.textContent = '';
-                }
-            }
-        });
-
-        // Listen for server telling us our username has been accepted
-        socket.on('username accepted', function(newUsername) {
-            username = newUsername; // Confirm client-side username
-            alert(`You are now logged in as ${newUsername}. Please create or join a room.`);
-            // DO NOT setUiMode('CHAT_MODE') here. Stay in LOBBY_MODE.
-        });
-
-        // Listen for server telling us our username has changed (for /nick command)
-        socket.on('username updated', function(newUsername) {
-            username = newUsername; // Update client-side username variable
-            displaySystemMessage(`Your username has been changed to <strong>${newUsername}</strong>.`);
-        });
-
-        // Update room list from server
-        socket.on('update room list', function(rooms) {
-            updateRoomSelects(rooms); // Update both selects
-        });
-
-        // Confirmation of room creation/join or switch
-        socket.on('room joined success', function(data) {
-            // data: { roomName: '...', roomId: '...', history: [...], usersInRoom: [...] }
-            switchRoomView(data.roomId, data.roomName, data.history, data.usersInRoom);
-            // System message for joining room is now sent by server
-        });
-
-        // Server tells client to enter lobby mode (e.g., after leaving a room)
-        socket.on('entered lobby', function() {
-            currentRoomId = null; // No current room
-            setUiMode('LOBBY_MODE'); // Return to the initial lobby screen
-        });
-
-        socket.on('room action feedback', function(message) {
-            // For feedback on room creation/join failures, display as system message
-            // If in CHAT_MODE, display in chat window. If in LOBBY_MODE, use alert.
-            if (mainChatContainer.style.display === 'flex') { // Check if chat container is visible
-                displaySystemMessage(message);
-            } else {
-                alert(message); // Use alert for lobby-mode feedback
-            }
-        });
-
-
-        // Typing indicator update from server
-        const typers = new Set(); // Store who is currently typing
-        socket.on('user typing', function(data) { // data: { username: '...', room: '...' }
-            if (data.room === currentRoomId && data.username !== username) { // Only show if in current room and not self
-                typers.add(data.username);
-                updateTypingIndicator();
-            }
-        });
-
-        socket.on('user stop typing', function(data) { // data: { username: '...', room: '...' }
-            if (data.room === currentRoomId) {
-                typers.delete(data.username);
-                updateTypingIndicator();
-            }
-        });
-
-        function updateTypingIndicator() {
-            if (typers.size === 0) {
-                typingIndicator.textContent = '';
-            } else if (typers.size === 1) {
-                typingIndicator.textContent = `${Array.from(typers)[0]} is typing...`;
-            } else if (typers.size === 2) {
-                typingIndicator.textContent = `${Array.from(typers).join(' and ')} are typing...`;
-            } else {
-                typingIndicator.textContent = 'Multiple users are typing...';
-            }
-        }
-
-        // Online User List update from server (now room-specific)
-        socket.on('update user list', function(data) { // data: { room: '...', users: [...] }
-            if (data.room === currentRoomId) {
-                updateUserList(data.users);
-            }
-        });
-
-        // Handle user disconnect
-        socket.on('disconnect', () => {
-            username = '';
-            currentRoomId = null;
-            alert('Disconnected from server. Please refresh to reconnect.');
-            setUiMode('LOBBY_MODE'); // Return to lobby on disconnect
-        });
-    </script>
-</body>
-</html></h1>
-        <div class="lobby-room-actions">
-            <button id="create-room-btn-lobby" aria-label="Create New Room">Create Room</button>
-            <button id="join-room-btn-lobby" aria-label="Join Existing Room">Join Room</button>
-        </div>
-        <section id="username-form">
-            <label for="username" class="sr-only">Choose your username</label>
-            <input type="text" id="username" autocomplete="off" placeholder="Choose your username" aria-label="Choose your username" maxlength="15" />
-            <button id="set-username" aria-label="Set Username">Set Username</button>
-        </section>
-    </div>
-
-    <div class="chat-container"> <!-- Initially hidden via JS, shown when in CHAT_MODE -->
-        <aside id="room-management-container" class="hidden"> <!-- Hidden until user explicitly opens it -->
-            <button class="modal-close-button" id="close-room-management" aria-label="Close Room Management">&times;</button>
-            <h2>Rooms</h2>
-            <div id="current-room-display">Current Room: General</div>
-            <select id="room-select" aria-label="Select Chat Room">
-                <!-- Options will be dynamically loaded here -->
-            </select>
-            <div class="room-buttons">
-                <button id="create-room-btn" aria-label="Create New Room">Create Room</button>
-                <button id="join-room-btn" aria-label="Join Existing Room">Join Room</button>
-            </div>
-        </aside>
-
-        <section class="chat-main">
-            <section id="chat-window" aria-live="polite" aria-atomic="true">
-                </section>
-
-            <div id="typing-indicator" role="status" aria-live="polite"></div>
-
-            <section id="message-form">
-                <label for="message" class="sr-only">Type your message</label>
-                <input type="text" id="message" autocomplete="off" placeholder="Type your message here..." aria-label="Type your message" />
-                <button id="send-message" aria-label="Send Message">Send</button>
-            </section>
-        </section>
-
-        <aside id="user-list-container">
-            <h2>Online Users</h2>
-            <ul id="user-list">
-                </ul>
-        </aside>
-    </div>
-
-    <!-- Modals for Room Management -->
-    <div id="create-room-modal" class="modal-overlay">
-        <div class="modal-content">
-            <button class="modal-close-button" aria-label="Close Modal">&times;</button>
-            <h3>Create New Room</h3>
-            <input type="text" id="new-room-name" placeholder="Room Name" maxlength="20" />
-            <input type="text" id="new-room-pin" placeholder="Unique PIN/ID (e.g., 1234)" maxlength="10" />
-            <div class="modal-buttons-group">
-                <button id="save-new-room">Create</button>
-                <button id="cancel-create-room-btn">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="join-room-modal" class="modal-overlay">
-        <div class="modal-content">
-            <button class="modal-close-button" aria-label="Close Modal">&times;</button>
-            <h3>Join Room</h3>
-            <input type="text" id="join-room-pin" placeholder="Enter Room PIN/ID" maxlength="10" />
-            <div class="modal-buttons-group">
-                <button id="confirm-join-room">Join</button>
-                <button id="cancel-join-room-btn">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- New Go to General Room button (fixed top right) -->
-    <button id="go-to-general-btn" aria-label="Go to General Room">Go to General Room</button>
-
-    <!-- Container for bottom-right fixed controls (only quick room switcher now) -->
-    <div class="bottom-right-controls">
-        <div id="quick-room-switcher" class="hidden">
-            <select id="quick-room-select" aria-label="Quick Room Selector">
-                <!-- Options populated dynamically -->
-            </select>
-        </div>
-    </div>
-
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io();
-        let username = '';
-        let currentRoomId = null; // Changed to null: user is not in a room initially
-        let typingTimeout; // For typing indicator
-        const chatHistoryByRoom = {}; // Store chat history per room on client-side
-
-        // DOM Elements
-        const usernameInput = document.getElementById('username');
-        const setUsernameButton = document.getElementById('set-username');
-        const usernameForm = document.getElementById('username-form');
-
-        // Initial Lobby Screen elements
-        const initialLobbyScreen = document.getElementById('initial-lobby-screen');
-        const createRoomBtnLobby = document.getElementById('create-room-btn-lobby');
-        const joinRoomBtnLobby = document.getElementById('join-room-btn-lobby');
-
-        // Main chat container
-        const mainChatContainer = document.querySelector('.chat-container');
-        const chatWindow = document.getElementById('chat-window');
-        const messageInput = document.getElementById('message');
-        const sendMessageButton = document.getElementById('send-message');
-        const messageForm = document.getElementById('message-form');
-        const typingIndicator = document.getElementById('typing-indicator');
-        const userListElement = document.getElementById('user-list');
-
-        // Room specific DOM elements (for sidebar)
-        const roomManagementContainer = document.getElementById('room-management-container');
-        const closeRoomManagementBtn = document.getElementById('close-room-management');
-        const currentRoomDisplay = document.getElementById('current-room-display');
-        const roomSelect = document.getElementById('room-select'); // Main room select in sidebar
-        const createRoomBtn = document.getElementById('create-room-btn'); // Sidebar button
-        const joinRoomBtn = document.getElementById('join-room-btn');     // Sidebar button
-
-        // Modals
-        const createRoomModal = document.getElementById('create-room-modal');
-        const newRoomNameInput = document.getElementById('new-room-name');
-        const newRoomPinInput = document.getElementById('new-room-pin');
-        const saveNewRoomBtn = document.getElementById('save-new-room');
-        const cancelCreateRoomBtn = document.getElementById('cancel-create-room-btn');
-
-        const joinRoomModal = document.getElementById('join-room-modal');
-        const joinRoomPinInput = document.getElementById('join-room-pin');
-        const confirmJoinRoomBtn = document.getElementById('confirm-join-room');
-        const cancelJoinRoomBtn = document.getElementById('cancel-join-room-btn');
-
-        // Quick room switcher elements
-        const quickRoomSwitcher = document.getElementById('quick-room-switcher');
-        const quickRoomSelect = document.getElementById('quick-room-select');
-        const goToGeneralBtn = document.getElementById('go-to-general-btn'); // New button element
-
-
-        // --- UI State Management ---
-        // Defines the different visual states of the application based on user interaction
-        function setUiMode(mode) {
-            // Hide all main containers first
-            initialLobbyScreen.style.display = 'none';
-            mainChatContainer.style.display = 'none';
-            roomManagementContainer.style.display = 'none';
-            quickRoomSwitcher.style.display = 'none';
-            messageForm.style.display = 'none';
-
-            // Default hide general button, then show conditionally
-            goToGeneralBtn.style.display = 'none'; // Reset its visibility
-
-            if (mode === 'CHAT_MODE') { // User is in a chat room
-                mainChatContainer.style.display = 'flex'; // Use flex for chat layout
-                messageForm.style.display = 'flex'; // Use flex for message form
-                quickRoomSwitcher.style.display = 'flex'; // Use flex for quick switcher
-                messageInput.focus();
-                chatWindow.innerHTML = ''; // Clear chat window when entering chat mode
-
-                // Show "Go to General" button if not in General room
-                if (currentRoomId && currentRoomId !== 'general') {
-                    goToGeneralBtn.style.display = 'block';
-                }
-
-            } else if (mode === 'LOBBY_MODE') { // User is in the initial lobby, needs to select/create a room
-                initialLobbyScreen.style.display = 'flex'; // Use flex for lobby layout
-                usernameInput.focus(); // Focus username input in lobby
-                // When in LOBBY_MODE, the user is not in any specific room, so they should be able to go to General.
-                goToGeneralBtn.style.display = 'block'; // Show in lobby
-            } else if (mode === 'ROOM_MANAGEMENT_MODE') { // User is managing rooms (sidebar open)
-                mainChatContainer.style.display = 'flex'; // Keep main chat layout visible
-                roomManagementContainer.style.display = 'flex'; // Show full room management sidebar
-                quickRoomSwitcher.style.display = 'none'; // Hide quick switcher when sidebar is open
-                messageForm.style.display = 'none'; // Hide message input when managing rooms
-                chatWindow.innerHTML = ''; // Clear chat window
-                displaySystemMessage('Manage your rooms here. Select an existing room or create a new one.');
-                goToGeneralBtn.style.display = 'none'; // Hide "Go to General" button when managing rooms
-            }
-        }
-
-        // Initialize UI mode on load
-        setUiMode('LOBBY_MODE'); // Start in the new lobby state
-
-
-        // Close buttons for modals (these are the 'x' buttons in the top right)
-        document.querySelectorAll('.modal-close-button').forEach(button => {
-            button.addEventListener('click', () => {
-                createRoomModal.classList.remove('active');
-                joinRoomModal.classList.remove('active');
-                // Clear inputs when closing
-                newRoomNameInput.value = '';
-                newRoomPinInput.value = '';
-                joinRoomPinInput.value = '';
-            });
-        });
-
-        // Specific listeners for the new "Cancel" buttons in modals
-        cancelCreateRoomBtn.addEventListener('click', () => {
-            createRoomModal.classList.remove('active');
-            newRoomNameInput.value = '';
-            newRoomPinInput.value = '';
-        });
-
-        cancelJoinRoomBtn.addEventListener('click', () => {
-            joinRoomModal.classList.remove('active');
-            joinRoomPinInput.value = '';
-        });
-
-
-        // Close button for the main room management sidebar
-        closeRoomManagementBtn.addEventListener('click', () => {
-            // When closing the sidebar, return to CHAT_MODE if a room is active, otherwise LOBBY_MODE
-            if (currentRoomId) {
-                setUiMode('CHAT_MODE');
-            } else {
-                setUiMode('LOBBY_MODE');
-            }
-        });
-
-
-        /**
-         * Formats a timestamp into a human-readable time string.
-         * @param {number} timestamp - The timestamp in milliseconds.
-         * @returns {string} Formatted time string (e.g., "03:30 PM").
-         */
-        function formatTime(timestamp) {
-            const date = new Date(timestamp);
-            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
-
-        /**
-         * Displays a general message (chat or action) in the chat window.
-         * @param {object} data - The message data.
-         * @param {boolean} isAction - True if it's an action message.
-         */
-        function displayMessage(data, isAction = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message-container');
-            const time = formatTime(data.timestamp);
-
-            if (isAction) {
-                messageDiv.classList.add('action-message');
-                messageDiv.innerHTML = `* <strong>${data.user}</strong> ${data.text} <span class="timestamp">${time}</span>`;
-            } else {
-                messageDiv.innerHTML = `<strong>${data.user}</strong>: ${data.text} <span class="timestamp">${time}</span>`;
-            }
-            chatWindow.appendChild(messageDiv);
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-        }
-
-        /**
-         * Displays a system-generated message in the chat window.
-         * Used for server-sent messages like "Username taken", room feedback, etc.
-         * @param {string} text - The text of the system message.
-         */
-        function displaySystemMessage(text) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('system-message');
-            messageDiv.innerHTML = text;
-            chatWindow.appendChild(messageDiv);
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-        }
-
-        /**
-         * Handles setting the user's initial username.
-         */
-        function setUsername() {
-            const trimmedUsername = usernameInput.value.trim();
-            if (trimmedUsername) {
-                socket.emit('set initial username', trimmedUsername);
-                username = trimmedUsername; // Client-side username updated immediately for responsiveness
-            } else {
-                alert('Please enter a username!');
-            }
-        }
-
-        /**
-         * Sends a chat message, action, or command to the server for the current room.
-         */
-        function sendMessage() {
-            const message = messageInput.value.trim();
-            if (!message || !username || !currentRoomId) return;
-
-            // Stop typing when message is sent
-            socket.emit('stop typing', currentRoomId); // Pass room ID
-            clearTimeout(typingTimeout);
-            typingIndicator.textContent = '';
-
-
-            if (message.startsWith('/me ')) {
-                const actionText = message.substring(4).trim();
-                if (actionText) {
-                    socket.emit('chat action', { room: currentRoomId, text: actionText, timestamp: Date.now() });
-                }
-            } else if (message.startsWith('/nick ')) {
-                const newNick = message.substring(6).trim();
-                if (newNick) {
-                    socket.emit('change username', newNick); // Nick change is global, not room specific
-                } else {
-                    displaySystemMessage("Please provide a new username, e.g., `/nick NewName`");
-                }
-            } else {
-                socket.emit('chat message', { room: currentRoomId, user: username, text: message, timestamp: Date.now() });
-            }
-            messageInput.value = '';
-        }
-
-        /**
-         * Updates the list of online users for the current room.
-         * @param {Array<string>} users - Array of usernames currently online in the current room.
-         */
-        function updateUserList(users) {
-            userListElement.innerHTML = ''; // Clear current list
-            users.forEach(user => {
-                const listItem = document.createElement('li');
-                listItem.textContent = user;
-                userListElement.appendChild(listItem);
-            });
-        }
-
-        /**
-         * Updates both the main room select and the quick room select dropdowns.
-         * @param {Array<object>} rooms - Array of room objects {id, name, hasPin}.
-         */
-        function updateRoomSelects(rooms) {
-            roomSelect.innerHTML = ''; // Clear main room select options
-            quickRoomSelect.innerHTML = ''; // Clear quick room select options
-
-            rooms.forEach(room => {
-                // Populate main room select (for sidebar) - KEEP THIS
-                const optionMain = document.createElement('option');
-                optionMain.value = room.id;
-                optionMain.textContent = room.name + (room.hasPin ? ' (PIN required)' : '');
-                roomSelect.appendChild(optionMain);
-
-                // THESE ARE THE LINES YOU NEED TO COMMENT OUT OR DELETE FOR THE QUICK SELECT
-                // const optionQuick = document.createElement('option');
-                // optionQuick.value = room.id;
-                // optionQuick.textContent = room.name;
-                // quickRoomSelect.appendChild(optionQuick);
-            });
-
-            // Add "Leave Current Room" option to quick select - KEEP THIS
-            const leaveOption = document.createElement('option');
-            leaveOption.value = 'leave-current-room';
-            leaveOption.textContent = 'Leave Current Room';
-            quickRoomSelect.appendChild(leaveOption);
-
-            // THESE ARE THE LINES YOU NEED TO COMMENT OUT OR DELETE FOR "Manage Rooms..."
-            // const manageOption = document.createElement('option');
-            // manageOption.value = 'manage-rooms';
-            // manageOption.textContent = 'Manage Rooms...';
-            // quickRoomSelect.appendChild(manageOption);
-
-
-            // Ensure both selects reflect the current room
-            if (roomSelect.querySelector(`option[value="${currentRoomId}"]`)) {
-                roomSelect.value = currentRoomId;
-            } else if (rooms.length > 0) {
-                roomSelect.value = rooms[0].id; // Default to first room if current is gone
-            }
-
-            // The quickRoomSelect will now only have 'leave-current-room'
-            // Its value will be set to 'leave-current-room' when in a room,
-            // or remain default if not in a room.
-            if (currentRoomId) {
-                quickRoomSelect.value = 'leave-current-room';
-            } else {
-                // If not in a room, the quick switcher might not even be visible,
-                // or it defaults to the first option if it's the only one.
-            }
-        }
-
-        /**
-         * Switches the client's view to a new room.
-         * @param {string} roomId - The ID of the room to switch to.
-         * @param {string} roomName - The display name of the room.
-         * @param {Array<object>} history - The chat history for the new room.
-         * @param {Array<string>} usersInRoom - The list of users in the new room.
-         */
-        function switchRoomView(roomId, roomName, history, usersInRoom) {
-            currentRoomId = roomId;
-            currentRoomDisplay.textContent = `Current Room: ${roomName}`;
-            roomSelect.value = roomId; // Update main dropdown selection
-            quickRoomSelect.value = 'leave-current-room'; // Always set quick select to leave option
-
-            chatWindow.innerHTML = ''; // Clear current chat display
-            chatHistoryByRoom[roomId] = history; // Store history for this room
-
-            // Display history for the new room
-            history.forEach(msg => {
-                if (msg.type === 'action') {
-                    displayMessage(msg, true);
-                } else if (msg.type === 'message') {
-                    displayMessage(msg);
-                } else if (msg.type === 'system') { // Display system messages from history
-                    displaySystemMessage(msg.text);
-                }
-            });
-            chatWindow.scrollTop = chatWindow.scrollHeight; // Scroll to bottom
-            typingIndicator.textContent = ''; // Clear typing indicator
-            typers.clear(); // Clear local typers list
-            messageInput.focus(); // Focus message input
-
-            updateUserList(usersInRoom); // Update user list for the new room
-            setUiMode('CHAT_MODE'); // Ensure UI is in chat mode after joining a room
-
-            // Show/hide "Go to General" button based on current room
-            if (currentRoomId === 'general') {
-                goToGeneralBtn.style.display = 'none';
-            } else {
-                goToGeneralBtn.style.display = 'block'; // Or 'flex'
-            }
-        }
-
-
-        // Event Listeners
-
-        // Event listeners for the initial lobby buttons
-        setUsernameButton.addEventListener('click', setUsername);
-        usernameInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                setUsername();
-            }
-        });
-
-        createRoomBtnLobby.addEventListener('click', () => {
-            if (!username) { // Check if username is set
-                alert('Please set your username first!');
-                usernameInput.focus();
-                return;
-            }
-            createRoomModal.classList.add('active');
-            newRoomNameInput.focus();
-        });
-
-        joinRoomBtnLobby.addEventListener('click', () => {
-            if (!username) { // Check if username is set
-                alert('Please set your username first!');
-                usernameInput.focus();
-                return;
-            }
-            joinRoomModal.classList.add('active');
-            joinRoomPinInput.focus();
-        });
-
-
-        // Main chat functionality buttons
-        sendMessageButton.addEventListener('click', sendMessage);
-
-        messageInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            } else {
-                // Typing indicator logic
-                if (username && currentRoomId) { // Only emit if user has a username and is in a room
-                    socket.emit('typing', currentRoomId); // Emit typing for the current room
-                    clearTimeout(typingTimeout);
-                    typingTimeout = setTimeout(() => {
-                        socket.emit('stop typing', currentRoomId); // Emit stop typing for the current room
-                    }, 3000); // Stop typing after 3 seconds of inactivity
-                }
-            }
-        });
-
-        // Room control event listeners (for sidebar)
-        createRoomBtn.addEventListener('click', () => {
-            createRoomModal.classList.add('active');
-            newRoomNameInput.focus();
-        });
-
-        joinRoomBtn.addEventListener('click', () => {
-            joinRoomModal.classList.add('active');
-            joinRoomPinInput.focus();
-        });
-
-        saveNewRoomBtn.addEventListener('click', () => {
-            const roomName = newRoomNameInput.value.trim();
-            const roomPin = newRoomPinInput.value.trim();
-            if (roomName && roomPin) {
-                socket.emit('create room', { name: roomName, pin: roomPin });
-                createRoomModal.classList.remove('active');
-                newRoomNameInput.value = '';
-                newRoomPinInput.value = '';
-            } else {
-                displaySystemMessage('Please enter both a room name and a unique PIN/ID.');
-            }
-        });
-
-        confirmJoinRoomBtn.addEventListener('click', () => {
-            const roomPin = joinRoomPinInput.value.trim();
-            if (roomPin) {
-                socket.emit('join room by pin', roomPin);
-                joinRoomModal.classList.remove('active');
-                joinRoomPinInput.value = '';
-            } else {
-                displaySystemMessage('Please enter the room PIN/ID.');
-            }
-        });
-
-        // Main room select (in the sidebar)
-        roomSelect.addEventListener('change', (event) => {
-            const selectedRoomId = event.target.value;
-            if (selectedRoomId !== currentRoomId) {
-                socket.emit('switch room', selectedRoomId);
-            }
-        });
-
-        // Quick room select (bottom right)
-        // CHANGED FROM 'change' TO 'click' FOR RELIABILITY WHEN ONLY ONE OPTION IS PRESENT
-        quickRoomSelect.addEventListener('click', (event) => {
-            const selectedValue = quickRoomSelect.value; // Get the currently selected value
-            if (selectedValue === 'leave-current-room') {
-                displaySystemMessage('Leaving current room...'); // Added feedback
-                socket.emit('leave current room');
-                // No need to reset value here, as setUiMode('LOBBY_MODE') will hide the switcher
-            }
-            // The other else if branches for 'manage-rooms' and other room IDs are already effectively dead
-            // due to the updateRoomSelects function commenting them out.
-        });
-
-        // New event listener for the "Go to General Room" button
-        goToGeneralBtn.addEventListener('click', () => {
-            if (currentRoomId !== 'general') {
-                displaySystemMessage('Switching to General room...');
-                socket.emit('switch room', 'general');
-            }
-        });
-
-
-        // Socket.IO Listeners
-        socket.on('chat message', function(data) {
-            // Only display message if it belongs to the current room
-            if (data.room === currentRoomId) {
-                displayMessage(data);
-                // If the sender was typing, clear their indicator
-                if (typingIndicator.textContent.includes(data.user + ' is typing...')) {
-                    typingIndicator.textContent = '';
-                }
-            }
-        });
-
-        socket.on('chat action', function(data) {
-            // Only display action if it belongs to the current room
-            if (data.room === currentRoomId) {
-                displayMessage(data, true);
-                // If the sender was typing, clear their indicator
-                if (typingIndicator.textContent.includes(data.user + ' is typing...')) {
-                    typingIndicator.textContent = '';
-                }
-            }
-        });
-
-        // Listen for server telling us our username has been accepted
-        socket.on('username accepted', function(newUsername) {
-            username = newUsername; // Confirm client-side username
-            alert(`You are now logged in as ${newUsername}. Please create or join a room.`);
-            // DO NOT setUiMode('CHAT_MODE') here. Stay in LOBBY_MODE.
-        });
-
-        // Listen for server telling us our username has changed (for /nick command)
-        socket.on('username updated', function(newUsername) {
-            username = newUsername; // Update client-side username variable
-            displaySystemMessage(`Your username has been changed to <strong>${newUsername}</strong>.`);
-        });
-
-        // Update room list from server
-        socket.on('update room list', function(rooms) {
-            updateRoomSelects(rooms); // Update both selects
-        });
-
-        // Confirmation of room creation/join or switch
-        socket.on('room joined success', function(data) {
-            // data: { roomName: '...', roomId: '...', history: [...], usersInRoom: [...] }
-            switchRoomView(data.roomId, data.roomName, data.history, data.usersInRoom);
-            // System message for joining room is now sent by server
-        });
-
-        // Server tells client to enter lobby mode (e.g., after leaving a room)
-        socket.on('entered lobby', function() {
-            currentRoomId = null; // No current room
-            setUiMode('LOBBY_MODE'); // Return to the initial lobby screen
-        });
-
-        socket.on('room action feedback', function(message) {
-            // For feedback on room creation/join failures, display as system message
-            // If in CHAT_MODE, display in chat window. If in LOBBY_MODE, use alert.
-            if (mainChatContainer.style.display === 'flex') { // Check if chat container is visible
-                displaySystemMessage(message);
-            } else {
-                alert(message); // Use alert for lobby-mode feedback
-            }
-        });
-
-
-        // Typing indicator update from server
-        const typers = new Set(); // Store who is currently typing
-        socket.on('user typing', function(data) { // data: { username: '...', room: '...' }
-            if (data.room === currentRoomId && data.username !== username) { // Only show if in current room and not self
-                typers.add(data.username);
-                updateTypingIndicator();
-            }
-        });
-
-        socket.on('user stop typing', function(data) { // data: { username: '...', room: '...' }
-            if (data.room === currentRoomId) {
-                typers.delete(data.username);
-                updateTypingIndicator();
-            }
-        });
-
-        function updateTypingIndicator() {
-            if (typers.size === 0) {
-                typingIndicator.textContent = '';
-            } else if (typers.size === 1) {
-                typingIndicator.textContent = `${Array.from(typers)[0]} is typing...`;
-            } else if (typers.size === 2) {
-                typingIndicator.textContent = `${Array.from(typers).join(' and ')} are typing...`;
-            } else {
-                typingIndicator.textContent = 'Multiple users are typing...';
-            }
-        }
-
-        // Online User List update from server (now room-specific)
-        socket.on('update user list', function(data) { // data: { room: '...', users: [...] }
-            if (data.room === currentRoomId) {
-                updateUserList(data.users);
-            }
-        });
-
-        // Handle user disconnect
-        socket.on('disconnect', () => {
-            username = '';
-            currentRoomId = null;
-            alert('Disconnected from server. Please refresh to reconnect.');
-            setUiMode('LOBBY_MODE'); // Return to lobby on disconnect
-        });
-    </script>
-</body>
-</html></h1>
+        <h1>HyperCHAT</h1>
         <div class="lobby-room-actions">
             <button id="create-room-btn-lobby" aria-label="Create New Room">Create Room</button>
             <button id="join-room-btn-lobby" aria-label="Join Existing Room">Join Room</button>
