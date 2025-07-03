@@ -1,0 +1,22 @@
+{
+  "name": "HyperCHAT",
+  "version": "1.0.0",
+  "description": "A real-time live chat application with Socket.IO",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "chat",
+    "realtime",
+    "socket.io",
+    "node.js",
+    "express"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5"
+  }
+}
