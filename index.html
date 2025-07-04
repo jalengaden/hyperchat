@@ -6,7 +6,8 @@
     <title>HyperCHAT</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Updated Google Fonts links to include Oxanium and Electrolize -->
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;700&family=Electrolize&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color-dark: #1a1a2e;
@@ -26,7 +27,8 @@
         }
 
         body {
-            font-family: 'Roboto', Arial, sans-serif;
+            /* Applied Electrolize to the body for all general text */
+            font-family: 'Electrolize', sans-serif;
             margin: 0;
             padding: 1.25rem; /* 20px / 16px = 1.25rem */
             background-color: var(--bg-color-dark);
@@ -74,6 +76,8 @@
 
 
         h1 {
+            /* Applied Oxanium to the h1 for the title */
+            font-family: 'Oxanium', cursive;
             color: var(--primary-color);
             border-bottom: 2px solid var(--primary-color);
             padding-bottom: 0.625rem; /* 10px */
@@ -127,6 +131,13 @@
         #username-form input[type="text"] {
             width: calc(100% - 2.5rem); /* Full width minus padding (40px) */
             margin-bottom: 0; /* No bottom margin, use gap */
+        }
+
+        /* Apply Oxanium to specific lobby buttons */
+        #create-room-btn-lobby,
+        #join-room-btn-lobby,
+        #set-username {
+            font-family: 'Oxanium', cursive; /* Apply Oxanium to these specific buttons */
         }
 
         #username-form button {
