@@ -1065,49 +1065,43 @@
             roomSelect.innerHTML = ''; // Clear main room select options
             quickRoomSelect.innerHTML = ''; // Clear quick room select options
 
+            // Populate main room select (for sidebar)
             rooms.forEach(room => {
-                // Populate main room select (for sidebar) - KEEP THIS
                 const optionMain = document.createElement('option');
                 optionMain.value = room.id;
                 optionMain.textContent = room.name + (room.hasPin ? ' (PIN required)' : '');
                 roomSelect.appendChild(optionMain);
-
-                // THESE ARE THE LINES YOU NEED TO COMMENT OUT OR DELETE FOR THE QUICK SELECT
-                // const optionQuick = document.createElement('option');
-                // optionQuick.value = room.id;
-                // optionQuick.textContent = room.name;
-                // quickRoomSelect.appendChild(optionQuick);
             });
 
-            // Add "Leave Current Room" option to quick select - KEEP THIS
+            // Add "Leave Current Room" option to quick select
             const leaveOption = document.createElement('option');
             leaveOption.value = 'leave-current-room';
             leaveOption.textContent = 'Leave Current Room';
             quickRoomSelect.appendChild(leaveOption);
 
-            // THESE ARE THE LINES YOU NEED TO COMMENT OUT OR DELETE FOR "Manage Rooms..."
-            // const manageOption = document.createElement('option');
-            // manageOption.value = 'manage-rooms';
-            // manageOption.textContent = 'Manage Rooms...';
-            // quickRoomSelect.appendChild(manageOption);
+            // Disable "Leave Current Room" option if in the "general" room
+            if (currentRoomId === 'general') {
+                leaveOption.disabled = true;
+            } else {
+                leaveOption.disabled = false;
+            }
 
-
-            // Ensure both selects reflect the current room
+            // Ensure main room select reflects the current room
             if (roomSelect.querySelector(`option[value="${currentRoomId}"]`)) {
                 roomSelect.value = currentRoomId;
             } else if (rooms.length > 0) {
-                roomSelect.value = rooms[0].id; // Default to first room if current is gone
+                // If current room is not in the list (e.g., left a private room),
+                // default to the first available room (which should be 'general' if present).
+                roomSelect.value = rooms[0].id;
             }
 
-            // The quickRoomSelect will now only have 'leave-current-room'
-            // Its value will be set to 'leave-current-room' when in a room,
-            // or remain default if not in a room.
+            // Always set quickRoomSelect value to 'leave-current-room' if in a room,
+            // or ensure it's the only option displayed.
             if (currentRoomId) {
                 quickRoomSelect.value = 'leave-current-room';
-            } else {
-                // If not in a room, the quick switcher might not even be visible,
-                // or it defaults to the first option if it's the only one.
             }
+            // If not in a room, the quick switcher might not even be visible,
+            // or it defaults to the first option if it's the only one.
         }
 
         /**
@@ -1121,7 +1115,14 @@
             currentRoomId = roomId;
             currentRoomDisplay.textContent = `Current Room: ${roomName}`;
             roomSelect.value = roomId; // Update main dropdown selection
-            quickRoomSelect.value = 'leave-current-room'; // Always set quick select to leave option
+            
+            // Update quick room select's disabled state immediately
+            const leaveOption = quickRoomSelect.querySelector('option[value="leave-current-room"]');
+            if (leaveOption) {
+                leaveOption.disabled = (currentRoomId === 'general');
+                quickRoomSelect.value = 'leave-current-room'; // Ensure it's selected
+            }
+
 
             chatWindow.innerHTML = ''; // Clear current chat display
             chatHistoryByRoom[roomId] = history; // Store history for this room
@@ -1248,17 +1249,24 @@
         });
 
         // Quick room select (bottom right)
-        // CHANGED FROM 'change' TO 'click' FOR RELIABILITY WHEN ONLY ONE OPTION IS PRESENT
-        quickRoomSelect.addEventListener('click', (event) => {
-            const selectedValue = quickRoomSelect.value; // Get the currently selected value
+        quickRoomSelect.addEventListener('change', (event) => { // Changed back to 'change' for proper dropdown behavior
+            const selectedValue = event.target.value; // Get the currently selected value
             if (selectedValue === 'leave-current-room') {
-                displaySystemMessage('Leaving current room...'); // Added feedback
-                socket.emit('leave current room');
-                // No need to reset value here, as setUiMode('LOBBY_MODE') will hide the switcher
+                if (currentRoomId !== 'general') { // Only allow leaving if not in general room
+                    displaySystemMessage('Leaving current room...');
+                    socket.emit('leave current room');
+                } else {
+                    displaySystemMessage('You cannot leave the General room from here. Switch to another room instead.');
+                    // Reset dropdown to its default state if user tried to "leave" general
+                    quickRoomSelect.value = 'leave-current-room';
+                }
             }
-            // The other else if branches for 'manage-rooms' and other room IDs are already effectively dead
-            // due to the updateRoomSelects function commenting them out.
+            // After action, reset the quick select value to ensure it's not stuck on a non-room option
+            if (currentRoomId) {
+                quickRoomSelect.value = 'leave-current-room';
+            }
         });
+
 
         // New event listener for the "Go to General Room" button
         goToGeneralBtn.addEventListener('click', () => {
@@ -1325,6 +1333,8 @@
         socket.on('entered lobby', function() {
             currentRoomId = null; // No current room
             setUiMode('LOBBY_MODE'); // Return to the initial lobby screen
+            // Ensure quick room select is reset and disabled if in lobby
+            updateRoomSelects([]); // Pass empty rooms to reset dropdown
         });
 
         socket.on('room action feedback', function(message) {
