@@ -1053,6 +1053,8 @@
                 listItem.textContent = user;
                 userListElement.appendChild(listItem);
             });
+            // Scroll to the bottom of the user list to show new users
+            userListElement.scrollTop = userListElement.scrollHeight;
         }
 
         /**
@@ -1306,8 +1308,10 @@
         });
 
         // Update room list from server
-        socket.on('update room list', function(rooms) {
-            updateRoomSelects(rooms); // Update both selects
+        socket.on('update room list', function(data) { // data: { room: '...', users: [...] }
+            if (data.room === currentRoomId) {
+                updateUserList(data.users);
+            }
         });
 
         // Confirmation of room creation/join or switch
