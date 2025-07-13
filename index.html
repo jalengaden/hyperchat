@@ -9,38 +9,17 @@
     <!-- Updated Google Fonts links to include Oxanium and Electrolize -->
     <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;700&family=Electrolize&display=swap" rel="stylesheet">
     <style>
-        /*
-         * CSS Variables for Theming
-         * These will be dynamically updated by JavaScript when a theme is selected.
-         * All elements should reference these variables to apply the theme.
-         */
         :root {
             --bg-color-dark: #1a1a2e;
             --bg-color-medium: #16213e;
             --bg-color-light: #2a2a4a;
-            --primary-color: #e94560; /* Accent color for buttons, highlights */
-            --text-color-light: #e0e0e0; /* Main text color */
-            --text-color-dark: #333; /* Text color for elements with light backgrounds (e.g., accent buttons) */
+            --primary-color: #e94560; /* A vibrant red/pink */
+            --text-color-light: #e0e0e0;
+            --text-color-dark: #333;
             --border-color: #0f3460;
             --shadow-color: rgba(0, 0, 0, 0.4);
             --secondary-text-color: #99aab5;
             --accent-glow: rgba(233, 69, 96, 0.6); /* Softer glow color */
-
-            /* RGB versions for rgba() usage in JS */
-            --primary-rgb: 233, 69, 96;
-            --bg-secondary-rgb: 15, 52, 96;
-            --bg-color-light-rgb: 42, 42, 74; /* Default for --bg-color-light */
-
-
-            /* Dev Panel Specific Variables (Cosmic Theme) - These are mostly static */
-            --dev-panel-bg: rgba(0, 0, 0, 0.95);
-            --dev-panel-border: #00ff00;
-            --dev-panel-text: #00ff00;
-            --dev-panel-header: #00ff00;
-            --dev-panel-shadow: rgba(0, 255, 0, 0.5);
-            --dev-panel-accent: #00aaff;
-            --dev-panel-error: #ff0000;
-            --dev-panel-warning: #ffcc00;
         }
 
         html {
@@ -52,19 +31,17 @@
             font-family: 'Electrolize', sans-serif;
             margin: 0;
             padding: 1.25rem; /* 20px / 16px = 1.25rem */
-            background-color: var(--bg-color-dark); /* Base background color */
+            background-color: var(--bg-color-dark);
             color: var(--text-color-light);
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
             box-sizing: border-box;
-            /* Background image and color will be set dynamically by JS for theming */
-            background-image: linear-gradient(135deg, var(--bg-color-dark) 0%, var(--border-color) 50%, var(--primary-color) 100%);
+            background-image: linear-gradient(135deg, #1a1a2e 0%, #0f3460 50%, #e94560 100%);
             justify-content: center; /* Center content vertically for lobby */
             position: relative; /* For absolute positioning of background overlay */
             overflow-x: hidden; /* Prevent horizontal scroll */
-            transition: background-image 0.8s ease-in-out, background-color 0.8s ease-in-out, color 0.8s ease-in-out; /* Smooth transition for theme changes */
         }
 
         /* Animated Background Overlay */
@@ -75,13 +52,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* These will be set by JS dynamically using RGB variables */
-            background: radial-gradient(circle at top left, rgba(var(--primary-rgb), 0.1) 0%, transparent 30%),
-                        radial-gradient(circle at bottom right, rgba(var(--bg-secondary-rgb), 0.1) 0%, transparent 30%);
+            background: radial-gradient(circle at top left, rgba(233, 69, 96, 0.1) 0%, transparent 30%),
+                        radial-gradient(circle at bottom right, rgba(15, 52, 96, 0.1) 0%, transparent 30%);
             opacity: 0.8;
             animation: backgroundPulse 15s infinite alternate ease-in-out;
             z-index: -1; /* Behind other content */
-            transition: background 0.8s ease-in-out; /* Smooth transition for radial gradients */
         }
 
         @keyframes backgroundPulse {
@@ -101,6 +76,7 @@
 
 
         h1 {
+            /* Applied Oxanium to the h1 for the title */
             font-family: 'Oxanium', cursive;
             color: var(--primary-color);
             border-bottom: 2px solid var(--primary-color);
@@ -111,7 +87,6 @@
             text-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--primary-color), 0 0 30px white; /* More intense glow */
             animation: glow 2s infinite alternate ease-in-out; /* Smoother animation */
             letter-spacing: 1px;
-            transition: color 0.8s ease-in-out, border-color 0.8s ease-in-out, text-shadow 0.8s ease-in-out;
         }
 
         @keyframes glow {
@@ -125,8 +100,8 @@
 
         /* Initial Lobby Screen Styles */
         #initial-lobby-screen {
-            background-color: rgba(var(--bg-secondary-rgb), 0.8); /* Use RGB variable for transparency */
-            border: 1px solid rgba(var(--border-rgb), 0.5); /* Use RGB variable for transparency */
+            background-color: rgba(22, 33, 62, 0.8); /* Slightly more opaque for focus */
+            border: 1px solid rgba(15, 52, 96, 0.5);
             border-radius: 0.75rem; /* 12px */
             box-shadow: 0 0.3125rem 1.25rem var(--shadow-color); /* 5px 20px */
             padding: 2.5rem; /* 40px */
@@ -139,14 +114,10 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             text-align: center;
-            transition: background-color 0.8s ease-in-out, border-color 0.8s ease-in-out, box-shadow 0.8s ease-in-out;
         }
 
         #initial-lobby-screen h1 {
             margin-bottom: 1.25rem; /* 20px */
-            color: var(--primary-color); /* Ensure lobby h1 uses primary color */
-            border-bottom: 2px solid var(--primary-color);
-            text-shadow: 0 0 10px rgba(var(--primary-rgb), 0.6), 0 0 20px var(--primary-color);
         }
 
         /* Username form specific styles */
@@ -157,30 +128,15 @@
             width: 100%; /* Ensure it takes full width of parent */
         }
 
-        #username-form label {
-            font-family: 'Oxanium', cursive; /* Apply Oxanium to label */
-            font-size: 1em;
-            color: var(--text-color-light);
-            margin-bottom: 5px; /* Space between label and input */
-            display: block; /* Ensure label is on its own line */
-        }
-
         #username-form input[type="text"] {
-            font-family: 'Oxanium', cursive; /* Apply Oxanium to input */
             width: calc(100% - 2.5rem); /* Full width minus padding (40px) */
             margin-bottom: 0; /* No bottom margin, use gap */
         }
 
-        #username-form input[type="text"]::placeholder {
-            font-family: 'Oxanium', cursive; /* Apply Oxanium to placeholder */
-            color: var(--secondary-text-color);
-            transition: color 0.8s ease-in-out;
-        }
-
-        /* Apply Oxanium to all lobby buttons */
-        #set-username,
+        /* Apply Oxanium to specific lobby buttons */
         #create-room-btn-lobby,
-        #join-room-btn-lobby {
+        #join-room-btn-lobby,
+        #set-username {
             font-family: 'Oxanium', cursive; /* Apply Oxanium to these specific buttons */
         }
 
@@ -198,8 +154,8 @@
 
         /* Main Chat Container Styles */
         .chat-container {
-            background-color: rgba(var(--bg-secondary-rgb), 0.6);
-            border: 1px solid rgba(var(--border-rgb), 0.3);
+            background-color: rgba(22, 33, 62, 0.6);
+            border: 1px solid rgba(15, 52, 96, 0.3);
             border-radius: 0.75rem; /* 12px */
             box-shadow: 0 0.3125rem 1.25rem var(--shadow-color); /* 5px 20px */
             padding: 1.5625rem; /* 25px */
@@ -212,7 +168,6 @@
             /* Initially hidden, controlled by JS */
             display: none; /* Hidden by default */
             margin-top: 0; /* Adjust if body padding changes */
-            transition: background-color 0.8s ease-in-out, border-color 0.8s ease-in-out, box-shadow 0.8s ease-in-out;
         }
 
         .chat-main {
@@ -222,8 +177,8 @@
         }
 
         #chat-window {
-            background: rgba(var(--bg-color-light-rgb), 0.6); /* Use RGB for transparency */
-            border: 1px solid rgba(var(--border-rgb), 0.3);
+            background: rgba(42, 42, 74, 0.6);
+            border: 1px solid rgba(15, 52, 96, 0.3);
             padding: 0.9375rem; /* 15px */
             height: 25rem; /* 400px */
             overflow-y: auto;
@@ -235,24 +190,21 @@
             flex-grow: 1;
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            transition: background 0.8s ease-in-out, border-color 0.8s ease-in-out, box-shadow 0.8s ease-in-out;
         }
 
         .message-container {
-            background-color: rgba(var(--bg-secondary-rgb), 0.7);
+            background-color: rgba(22, 33, 62, 0.7);
             padding: 0.625rem 0.9375rem; /* 10px 15px */
             border-radius: 1.125rem; /* 18px */
             max-width: 85%;
             word-wrap: break-word;
             line-height: 1.5;
             box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.2); /* 2px 5px */
-            transition: background-color 0.8s ease-in-out;
         }
 
         .message-container strong {
             color: var(--primary-color);
             font-weight: 700;
-            transition: color 0.8s ease-in-out;
         }
 
         .timestamp {
@@ -262,60 +214,34 @@
             display: inline-block;
             float: right;
             line-height: 1.8;
-            transition: color 0.8s ease-in-out;
         }
 
         .action-message {
             font-style: italic;
             color: #90ee90;
-            background-color: rgba(var(--bg-color-light-rgb), 0.7); /* Use light background for actions */
+            background-color: rgba(58, 58, 90, 0.7);
             text-align: center;
             font-size: 0.95em;
         }
 
         .system-message { /* Used for internal system feedback like room join/create success/failure */
-            color: var(--text-color-light);
+            color: #aaddff;
             font-style: italic;
             text-align: center;
             font-size: 0.9em;
             padding: 0.3125rem 0.625rem; /* 5px 10px */
-            background-color: rgba(var(--bg-color-light-rgb), 0.7);
+            background-color: rgba(43, 58, 90, 0.7);
             border-radius: 0.5rem; /* 8px */
             margin: 0.3125rem 0; /* 5px */
-            transition: background-color 0.8s ease-in-out, color 0.8s ease-in-out;
         }
 
-        /* Typing Indicator Styles */
         #typing-indicator {
-            min-height: 1.25rem; /* 20px */
+            height: 1.25rem; /* 20px */
             font-size: 0.85em;
             color: var(--secondary-text-color);
             font-style: italic;
-            margin-top: 0.3125rem; /* 5px */
+            margin-top: -0.625rem; /* -10px */
             margin-bottom: 0.3125rem; /* 5px */
-            display: flex; /* Use flexbox for alignment */
-            align-items: center; /* Vertically align icon and text */
-            justify-content: flex-start; /* Align content to the start */
-            padding-left: 0.625rem; /* Match message padding */
-            transition: color 0.8s ease-in-out;
-        }
-
-        /* Spiraling Circle Icon for Typing Indicator */
-        .typing-icon {
-            width: 1em; /* Size relative to parent font size */
-            height: 1em;
-            border: 2px solid currentColor; /* Use current text color for the border */
-            border-top-color: transparent; /* Makes it look like a spiral */
-            border-radius: 50%;
-            animation: spin 1s linear infinite; /* Smooth continuous spin */
-            margin-right: 0.5em; /* Space between icon and text */
-            display: inline-block; /* Ensures it sits correctly with text */
-            flex-shrink: 0; /* Prevent it from shrinking */
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
 
         #message-form {
@@ -336,7 +262,7 @@
             background: rgba(42, 42, 74, 0.6);
             color: var(--text-color-light);
             font-size: 1em;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.8s ease-in-out, color 0.8s ease-in-out;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
         }
@@ -392,7 +318,6 @@
             flex-shrink: 0;
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            transition: background-color 0.8s ease-in-out, border-color 0.8s ease-in-out, box-shadow 0.8s ease-in-out;
         }
 
         #user-list-container h2,
@@ -404,7 +329,6 @@
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 0.5rem; /* 8px */
             text-align: center;
-            transition: color 0.8s ease-in-out, border-color 0.8s ease-in-out;
         }
 
         #user-list, #room-select { /* Adjusted for dropdown */
@@ -421,7 +345,6 @@
             display: flex;
             align-items: center;
             gap: 0.5rem; /* 8px */
-            transition: color 0.8s ease-in-out;
         }
 
         #user-list li::before {
@@ -450,7 +373,7 @@
             background: rgba(42, 42, 74, 0.6);
             color: var(--text-color-light);
             font-size: 1em;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.8s ease-in-out, color 0.8s ease-in-out;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             appearance: none; /* Remove default dropdown arrow */
@@ -508,7 +431,6 @@
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(15, 52, 96, 0.3);
-            transition: background-color 0.8s ease-in-out, border-color 0.8s ease-in-out, box-shadow 0.8s ease-in-out;
         }
 
         .modal-content h3 {
@@ -516,7 +438,6 @@
             margin-top: 0;
             margin-bottom: 1.25rem; /* 20px */
             font-size: 1.8em;
-            transition: color 0.8s ease-in-out;
         }
 
         .modal-content input[type="text"] {
@@ -528,7 +449,6 @@
             background: rgba(42, 42, 74, 0.6);
             color: var(--text-color-light);
             font-size: 1em;
-            transition: background 0.8s ease-in-out, color 0.8s ease-in-out;
         }
 
         .modal-buttons-group {
@@ -554,7 +474,7 @@
             cursor: pointer;
             padding: 0.3125rem; /* 5px */
             border-radius: 50%;
-            transition: background-color 0.2s ease, color 0.8s ease-in-out;
+            transition: background-color 0.2s ease;
         }
 
         .modal-close-button:hover {
@@ -583,7 +503,6 @@
             gap: 0.625rem; /* 10px */
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            transition: background-color 0.8s ease-in-out, border-color 0.8s ease-in-out, box-shadow 0.8s ease-in-out;
         }
 
         #quick-room-switcher.hidden {
@@ -602,7 +521,7 @@
             color: var(--text-color-light); /* Light text */
             font-size: 0.85em; /* Smaller font */
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, color 0.8s ease-in-out;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -637,7 +556,6 @@
             background-position: right 0.625rem center; /* 10px */
             background-size: 1.125rem; /* 18px */
             padding-right: 2.1875rem; /* 35px */
-            transition: background 0.8s ease-in-out, color 0.8s ease-in-out;
         }
 
         #quick-room-select option {
@@ -750,9 +668,9 @@
 
         <section class="chat-main">
             <section id="chat-window" aria-live="polite" aria-atomic="true">
-                <!-- Typing indicator moved inside chat-window -->
-                <div id="typing-indicator" role="status" aria-live="polite"></div>
-            </section>
+                </section>
+
+            <div id="typing-indicator" role="status" aria-live="polite"></div>
 
             <section id="message-form">
                 <label for="message" class="sr-only">Type your message</label>
@@ -831,7 +749,7 @@
         const messageInput = document.getElementById('message');
         const sendMessageButton = document.getElementById('send-message');
         const messageForm = document.getElementById('message-form');
-        const typingIndicator = document.getElementById('typing-indicator'); // Now inside chat-window
+        const typingIndicator = document.getElementById('typing-indicator');
         const userListElement = document.getElementById('user-list');
 
         // Room specific DOM elements (for sidebar)
@@ -879,8 +797,6 @@
                 quickRoomSwitcher.style.display = 'flex'; // Use flex for quick switcher
                 messageInput.focus();
                 chatWindow.innerHTML = ''; // Clear chat window when entering chat mode
-                // Re-append typing indicator to ensure it's always at the bottom
-                chatWindow.appendChild(typingIndicator);
 
                 // Show "Go to General" button if not in General room
                 if (currentRoomId && currentRoomId !== 'general') {
@@ -898,15 +814,13 @@
                 quickRoomSwitcher.style.display = 'none'; // Hide quick switcher when sidebar is open
                 messageForm.style.display = 'none'; // Hide message input when managing rooms
                 chatWindow.innerHTML = ''; // Clear chat window
-                // Re-append typing indicator to ensure it's always at the bottom
-                chatWindow.appendChild(typingIndicator);
                 displaySystemMessage('Manage your rooms here. Select an existing room or create a new one.');
                 goToGeneralBtn.style.display = 'none'; // Hide "Go to General" button when managing rooms
             }
         }
 
         // Initialize UI mode on load
-        setUiMode('LOBBY_MODE'); // Start the app in the new lobby state
+        setUiMode('LOBBY_MODE'); // Start in the new lobby state
 
 
         // Close buttons for modals (these are the 'x' buttons in the top right)
@@ -971,12 +885,7 @@
             } else {
                 messageDiv.innerHTML = `<strong>${data.user}</strong>: ${data.text} <span class="timestamp">${time}</span>`;
             }
-            // Insert message before the typing indicator if it exists, otherwise append
-            if (typingIndicator.parentNode === chatWindow && typingIndicator.textContent !== '') {
-                chatWindow.insertBefore(messageDiv, typingIndicator);
-            } else {
-                chatWindow.appendChild(messageDiv);
-            }
+            chatWindow.appendChild(messageDiv);
             chatWindow.scrollTop = chatWindow.scrollHeight;
         }
 
@@ -989,12 +898,7 @@
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('system-message');
             messageDiv.innerHTML = text;
-            // Insert system message before the typing indicator if it exists, otherwise append
-            if (typingIndicator.parentNode === chatWindow && typingIndicator.textContent !== '') {
-                chatWindow.insertBefore(messageDiv, typingIndicator);
-            } else {
-                chatWindow.appendChild(messageDiv);
-            }
+            chatWindow.appendChild(messageDiv);
             chatWindow.scrollTop = chatWindow.scrollHeight;
         }
 
@@ -1021,7 +925,7 @@
             // Stop typing when message is sent
             socket.emit('stop typing', currentRoomId); // Pass room ID
             clearTimeout(typingTimeout);
-            typingIndicator.innerHTML = ''; // Clear typing indicator content
+            typingIndicator.textContent = '';
 
 
             if (message.startsWith('/me ')) {
@@ -1053,8 +957,6 @@
                 listItem.textContent = user;
                 userListElement.appendChild(listItem);
             });
-            // Scroll to the bottom of the user list to show new users
-            userListElement.scrollTop = userListElement.scrollHeight;
         }
 
         /**
@@ -1065,43 +967,49 @@
             roomSelect.innerHTML = ''; // Clear main room select options
             quickRoomSelect.innerHTML = ''; // Clear quick room select options
 
-            // Populate main room select (for sidebar)
             rooms.forEach(room => {
+                // Populate main room select (for sidebar) - KEEP THIS
                 const optionMain = document.createElement('option');
                 optionMain.value = room.id;
                 optionMain.textContent = room.name + (room.hasPin ? ' (PIN required)' : '');
                 roomSelect.appendChild(optionMain);
+
+                // THESE ARE THE LINES YOU NEED TO COMMENT OUT OR DELETE FOR THE QUICK SELECT
+                // const optionQuick = document.createElement('option');
+                // optionQuick.value = room.id;
+                // optionQuick.textContent = room.name;
+                // quickRoomSelect.appendChild(optionQuick);
             });
 
-            // Add "Leave Current Room" option to quick select
+            // Add "Leave Current Room" option to quick select - KEEP THIS
             const leaveOption = document.createElement('option');
             leaveOption.value = 'leave-current-room';
             leaveOption.textContent = 'Leave Current Room';
             quickRoomSelect.appendChild(leaveOption);
 
-            // Disable "Leave Current Room" option if in the "general" room
-            if (currentRoomId === 'general') {
-                leaveOption.disabled = true;
-            } else {
-                leaveOption.disabled = false;
-            }
+            // THESE ARE THE LINES YOU NEED TO COMMENT OUT OR DELETE FOR "Manage Rooms..."
+            // const manageOption = document.createElement('option');
+            // manageOption.value = 'manage-rooms';
+            // manageOption.textContent = 'Manage Rooms...';
+            // quickRoomSelect.appendChild(manageOption);
 
-            // Ensure main room select reflects the current room
+
+            // Ensure both selects reflect the current room
             if (roomSelect.querySelector(`option[value="${currentRoomId}"]`)) {
                 roomSelect.value = currentRoomId;
             } else if (rooms.length > 0) {
-                // If current room is not in the list (e.g., left a private room),
-                // default to the first available room (which should be 'general' if present).
-                roomSelect.value = rooms[0].id;
+                roomSelect.value = rooms[0].id; // Default to first room if current is gone
             }
 
-            // Always set quickRoomSelect value to 'leave-current-room' if in a room,
-            // or ensure it's the only option displayed.
+            // The quickRoomSelect will now only have 'leave-current-room'
+            // Its value will be set to 'leave-current-room' when in a room,
+            // or remain default if not in a room.
             if (currentRoomId) {
                 quickRoomSelect.value = 'leave-current-room';
+            } else {
+                // If not in a room, the quick switcher might not even be visible,
+                // or it defaults to the first option if it's the only one.
             }
-            // If not in a room, the quick switcher might not even be visible,
-            // or it defaults to the first option if it's the only one.
         }
 
         /**
@@ -1115,14 +1023,7 @@
             currentRoomId = roomId;
             currentRoomDisplay.textContent = `Current Room: ${roomName}`;
             roomSelect.value = roomId; // Update main dropdown selection
-            
-            // Update quick room select's disabled state immediately
-            const leaveOption = quickRoomSelect.querySelector('option[value="leave-current-room"]');
-            if (leaveOption) {
-                leaveOption.disabled = (currentRoomId === 'general');
-                quickRoomSelect.value = 'leave-current-room'; // Ensure it's selected
-            }
-
+            quickRoomSelect.value = 'leave-current-room'; // Always set quick select to leave option
 
             chatWindow.innerHTML = ''; // Clear current chat display
             chatHistoryByRoom[roomId] = history; // Store history for this room
@@ -1137,10 +1038,8 @@
                     displaySystemMessage(msg.text);
                 }
             });
-            // Re-append typing indicator after history, so it's always at the bottom
-            chatWindow.appendChild(typingIndicator);
             chatWindow.scrollTop = chatWindow.scrollHeight; // Scroll to bottom
-            typingIndicator.innerHTML = ''; // Clear typing indicator content
+            typingIndicator.textContent = ''; // Clear typing indicator
             typers.clear(); // Clear local typers list
             messageInput.focus(); // Focus message input
 
@@ -1249,24 +1148,17 @@
         });
 
         // Quick room select (bottom right)
-        quickRoomSelect.addEventListener('change', (event) => { // Changed back to 'change' for proper dropdown behavior
-            const selectedValue = event.target.value; // Get the currently selected value
+        // CHANGED FROM 'change' TO 'click' FOR RELIABILITY WHEN ONLY ONE OPTION IS PRESENT
+        quickRoomSelect.addEventListener('click', (event) => {
+            const selectedValue = quickRoomSelect.value; // Get the currently selected value
             if (selectedValue === 'leave-current-room') {
-                if (currentRoomId !== 'general') { // Only allow leaving if not in general room
-                    displaySystemMessage('Leaving current room...');
-                    socket.emit('leave current room');
-                } else {
-                    displaySystemMessage('You cannot leave the General room from here. Switch to another room instead.');
-                    // Reset dropdown to its default state if user tried to "leave" general
-                    quickRoomSelect.value = 'leave-current-room';
-                }
+                displaySystemMessage('Leaving current room...'); // Added feedback
+                socket.emit('leave current room');
+                // No need to reset value here, as setUiMode('LOBBY_MODE') will hide the switcher
             }
-            // After action, reset the quick select value to ensure it's not stuck on a non-room option
-            if (currentRoomId) {
-                quickRoomSelect.value = 'leave-current-room';
-            }
+            // The other else if branches for 'manage-rooms' and other room IDs are already effectively dead
+            // due to the updateRoomSelects function commenting them out.
         });
-
 
         // New event listener for the "Go to General Room" button
         goToGeneralBtn.addEventListener('click', () => {
@@ -1283,9 +1175,8 @@
             if (data.room === currentRoomId) {
                 displayMessage(data);
                 // If the sender was typing, clear their indicator
-                if (typers.has(data.user)) { // Check if the user was in the typers set
-                    typers.delete(data.user);
-                    updateTypingIndicator();
+                if (typingIndicator.textContent.includes(data.user + ' is typing...')) {
+                    typingIndicator.textContent = '';
                 }
             }
         });
@@ -1295,9 +1186,8 @@
             if (data.room === currentRoomId) {
                 displayMessage(data, true);
                 // If the sender was typing, clear their indicator
-                if (typers.has(data.user)) { // Check if the user was in the typers set
-                    typers.delete(data.user);
-                    updateTypingIndicator();
+                if (typingIndicator.textContent.includes(data.user + ' is typing...')) {
+                    typingIndicator.textContent = '';
                 }
             }
         });
@@ -1316,10 +1206,8 @@
         });
 
         // Update room list from server
-        socket.on('update room list', function(data) { // data: { room: '...', users: [...] }
-            if (data.room === currentRoomId) {
-                updateUserList(data.users);
-            }
+        socket.on('update room list', function(rooms) {
+            updateRoomSelects(rooms); // Update both selects
         });
 
         // Confirmation of room creation/join or switch
@@ -1333,8 +1221,6 @@
         socket.on('entered lobby', function() {
             currentRoomId = null; // No current room
             setUiMode('LOBBY_MODE'); // Return to the initial lobby screen
-            // Ensure quick room select is reset and disabled if in lobby
-            updateRoomSelects([]); // Pass empty rooms to reset dropdown
         });
 
         socket.on('room action feedback', function(message) {
@@ -1365,31 +1251,14 @@
         });
 
         function updateTypingIndicator() {
-            // Clear previous content
-            typingIndicator.innerHTML = '';
-
             if (typers.size === 0) {
-                // No one typing, leave empty
+                typingIndicator.textContent = '';
+            } else if (typers.size === 1) {
+                typingIndicator.textContent = `${Array.from(typers)[0]} is typing...`;
+            } else if (typers.size === 2) {
+                typingIndicator.textContent = `${Array.from(typers).join(' and ')} are typing...`;
             } else {
-                const icon = document.createElement('span');
-                icon.classList.add('typing-icon');
-                typingIndicator.appendChild(icon); // Add the spiraling icon
-
-                let text;
-                if (typers.size === 1) {
-                    text = `${Array.from(typers)[0]} is typing...`;
-                } else if (typers.size === 2) {
-                    text = `${Array.from(typers).join(' and ')} are typing...`;
-                } else {
-                    text = 'Multiple users are typing...';
-                }
-                const textNode = document.createTextNode(text);
-                typingIndicator.appendChild(textNode); // Add the text
-
-                // Ensure the typing indicator is at the very bottom of the chat window
-                // It's already inside chatWindow, so it will naturally flow.
-                // If chatWindow is a flex container, it will appear after messages.
-                chatWindow.scrollTop = chatWindow.scrollHeight; // Keep scrolled to bottom
+                typingIndicator.textContent = 'Multiple users are typing...';
             }
         }
 
@@ -1410,3 +1279,5 @@
     </script>
 </body>
 </html>
+
+
